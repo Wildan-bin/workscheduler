@@ -1,3 +1,4 @@
+{{-- ini harusnya halaman home tapi tidak tahu home apa --}}
 <!DOCTYPE html>
 <html lang="en">
 
