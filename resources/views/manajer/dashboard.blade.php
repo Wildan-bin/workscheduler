@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title>Dashboard Admin</title>
     @vite('resources/css/app.css')
     <!-- Tambahkan ini di dalam <head> HTML -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
                         </svg>
                         <h1 class="pt-2 mb-12  text-center">Katalog Produk</h1>
                     </div>
-                    <a type="submit " href="katalog.blade.php"
+                    <a type="submit " href="{{ route('catalog') }}"
                         class="w-4/5 text-amber-400 bg-zinc-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-xs px-1 py-1.5 text-center absolute bottom-4 ">
                         Lihat
                     </a>
