@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-amber-50">
-    <section class="bg-gray-50 pt-[30%] lg:pt-5 font-[Poppins]">
+<body class="bg-[#FDFAEF]">
+    <section class=pt-[30%] lg:pt-5 font-[Poppins]">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <div class="w-full bg-transparent rounded-lg md:mt-0 sm:max-w-md xl:p-0">
                 <h1

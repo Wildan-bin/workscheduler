@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title>Katalog Produk</title>
     @vite('resources/css/app.css')
     <!-- Tambahkan ini di dalam <head> HTML -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-[#FDFAEF]">
     <div class="flex flex-row">
         <form action="{{ route('dashboard') }}" method="GET" class="absolute top-5 left-5">
             @csrf
@@ -40,30 +40,27 @@
     <section class="py-10 md:py-12 lg:py-14">
         <div class="container mx-auto">
             <div class="p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
-                <div
-                    class="bg-[#EECB6D] rounded-3xl shadow-lg p-4 md:p-5 lg:p-6 px-8 md:px-10 lg:px-12 flex items-center">
+                <div class="bg-[#EECB6D] rounded-3xl shadow-lg p-4 lg:p-6 lg:px-12 flex items-center">
                     <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/catalog-image/110/MTA-173935946/erigo_erigo-parfume-jkt48-tranquil_full01.jpg"
-                        alt="Produk 1" class="w-1/2 h-24 object-cover rounded-lg mr-3 md:mr-5 lg:mr-6">
-                    <div class="w-1/2">
-                        <h3 class="text-md font-semibold md:text-lg lg:text-xl">Nama Produk 1</h3>
+                        alt="Produk 1" class="w-24 h-24 object-cover rounded-2xl mr-3 md:mr-5 lg:mr-6">
+                    <div class="w-1/2 ml-2 ">
+                        <h3 class="text-xl font-bold lg:text-xl">Nama Produk 1</h3>
                         <p class="text-gray-600 text-xs md:text-sm lg:text-md">Deskripsi singkat produk 1.</p>
                     </div>
                 </div>
-                <div
-                    class="bg-[#EECB6D] rounded-3xl shadow-lg p-4 md:p-5 lg:p-6 px-8 md:px-10 lg:px-12 flex items-center">
+                <div class="bg-[#EECB6D] rounded-3xl shadow-lg p-4 lg:p-6 md:px-10 lg:px-12 flex items-center">
                     <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/catalog-image/110/MTA-173935946/erigo_erigo-parfume-jkt48-tranquil_full01.jpg"
-                        alt="Produk 2" class="w-1/2 h-24 object-cover rounded-lg mr-3 md:mr-5 lg:mr-6">
-                    <div class="w-1/2">
-                        <h3 class="text-md font-semibold md:text-lg lg:text-xl">Nama Produk 2</h3>
+                        alt="Produk 2" class="w-24 h-24 object-cover rounded-2xl mr-3 md:mr-5 lg:mr-6">
+                    <div class="w-1/2 ml-2 ">
+                        <h3 class="text-xl font-bold lg:text-xl">Nama Produk 2</h3>
                         <p class="text-gray-600 text-xs md:text-sm lg:text-md">Deskripsi singkat produk 2.</p>
                     </div>
                 </div>
-                <div
-                    class="bg-[#EECB6D] rounded-3xl shadow-lg p-4 md:p-5 lg:p-6 px-8 md:px-10 lg:px-12 flex items-center">
+                <div class="bg-[#EECB6D] rounded-3xl shadow-lg p-4 md:p-5 lg:p-6 md:px-10 lg:px-12 flex items-center">
                     <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/catalog-image/110/MTA-173935946/erigo_erigo-parfume-jkt48-tranquil_full01.jpg"
-                        alt="Produk 3" class="w-1/2 h-24 object-cover rounded-lg mr-3 md:mr-5 lg:mr-6">
-                    <div class="w-1/2">
-                        <h3 class="text-md font-semibold md:text-lg lg:text-xl">Nama Produk 3</h3>
+                        alt="Produk 3" class="w-24 h-24 object-cover rounded-2xl mr-3 md:mr-5 lg:mr-6">
+                    <div class="w-1/2 ml-2 ">
+                        <h3 class="text-xl font-bold lg:text-xl">Nama Produk 3</h3>
                         <p class="text-gray-600 text-xs md:text-sm lg:text-md">Deskripsi singkat produk 3.</p>
                     </div>
                 </div>
