@@ -29,7 +29,7 @@
             
             <!-- Month Date Input -->
             <div class="mt-2">
-                <input type="date" class="text-sm bg-[#F1C93B] text-black font-medium py-1 px-3 rounded-md">
+                <input type="month" class="text-sm bg-[#F1C93B] text-black font-medium py-1 px-3 rounded-md">
             </div>
 
             <!-- Schedule List -->
