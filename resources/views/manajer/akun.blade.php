@@ -1,4 +1,13 @@
 <x-layout>
+    <form action="{{ route('dashboard') }}" method="GET" class="absolute top-5 left-5">
+        @csrf
+        <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+            </svg>
+        </button>
+    </form>
+
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div class="w-full bg-transparent rounded-lg md:mt-0 sm:max-w-md xl:p-0">
             <h1 class="text-4xl font-bold tracking-normal leading-tight tracking-tight text-zinc-800 mb-5 self-start">
@@ -45,9 +54,19 @@
                     </div>
                     <div>
                         <input type="password" name="password" id="password" placeholder="password"
-                            class="text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-[30px] focus:ring-primary-600 focus:border-primary-600 block w-full px-3 py-1.5  mb-12"
+                            class="text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-[30px] focus:ring-primary-600 focus:border-primary-600 block w-full px-3 py-1.5"
                             required="">
                         @if ($errors->has('password'))
+                            <span class="text-red-900 text-xs">
+                                {{ $errors->first('password') }}
+                            </span>
+                        @endif
+                    </div>
+                    <div>
+                        <input type="text" name="jabatan" id="jabatan" placeholder="jabatan"
+                            class="text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-[30px] focus:ring-primary-600 focus:border-primary-600 block w-full px-3 py-1.5  mb-12"
+                            required="">
+                        @if ($errors->has('jabatan'))
                             <span class="text-red-900 text-xs">
                                 {{ $errors->first('password') }}
                             </span>

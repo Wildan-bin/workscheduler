@@ -23,7 +23,7 @@
                 </svg>
             </button>
         </form>
-        <h1 class="absolute top-5 right-5 font-semibold text-sm">Halo, {{ Auth::user()->name }}!</h1>
+        <h1 class="absolute top-5 right-5 font-semibold text-sm">Halo, {{ explode(' ', Auth::user()->nama)[0] }}!</h1>
     </div>
     <section class="bg-transparent pt-[30%] lg:pt-5 font-[Poppins]">
         <div class="px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -44,7 +44,7 @@
                         </svg>
                         <h1 class="pt-2 mb-12  text-center">Katalog Produk</h1>
                     </div>
-                    <a type="submit " href="katalog.blade.php"
+                    <a type="submit " href="{{ route('catalog') }}"
                         class="w-4/5 text-amber-400 bg-zinc-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-xs px-1 py-1.5 text-center absolute bottom-4 ">
                         Lihat
                     </a>
@@ -60,7 +60,7 @@
 
                         <h1 class="pt-2 mb-12  text-center">Akun Sistem</h1>
                     </div>
-                    <a type="submit "
+                    <a type="submit " href="{{ route('account') }}"
                         class="w-4/5 text-amber-400 bg-zinc-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-xs px-1 py-1.5 text-center absolute bottom-4 ">
                         Lihat
                     </a>

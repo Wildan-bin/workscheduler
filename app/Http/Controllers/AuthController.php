@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pegawai;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,10 +43,11 @@ class AuthController extends Controller
             "password" => "required"
         ]);
 
-        $user = new User();
-        $user->name = $request->fullname;
+        $user = new Pegawai();
+        $user->nama = $request->fullname;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->jabatan = $request->jabatan;
         if ($user->save()) {
             return redirect(route("login"))
                 ->with("success", "User created successfully");
