@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -22,7 +22,14 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only("email", "password");
         if (Auth::attempt($credentials)) {
-            return redirect()->intended(route("dashboard"));
+            $user = Auth::user();
+
+            // Redirect berdasarkan role
+            if ($user->jabatan === 'admin') {
+                return redirect()->route("dashboard");
+            } elseif ($user->jabatan === 'pegawai') {
+                return redirect()->route("penjadwalan");
+            }
         }
         return redirect(route("login"))
             ->with("error", "Login failed");
@@ -42,10 +49,11 @@ class AuthController extends Controller
             "password" => "required"
         ]);
 
-        $user = new User();
-        $user->name = $request->fullname;
+        $user = new Pegawai();
+        $user->nama = $request->fullname;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->jabatan = $request->jabatan;
         if ($user->save()) {
             return redirect(route("login"))
                 ->with("success", "User created successfully");
