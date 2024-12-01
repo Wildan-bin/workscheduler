@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Pegawai extends Authenticatable
+class Pegawais extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -27,8 +27,8 @@ class Pegawai extends Authenticatable
     ];
 
     // Relasi ke model Jadwal
-    public function jadwals()
+    public function jadwalKuliah(): HasMany
     {
-        return $this->hasMany(Jadwal::class);
+        return $this->hasMany(JadwalKuliah::class, 'pegawai_id', 'id');
     }
 }
