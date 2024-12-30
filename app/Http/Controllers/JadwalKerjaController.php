@@ -2,64 +2,84 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawais;
-use App\Models\JadwalKuliah;
-use App\Models\JadwalKerja;
 use Carbon\Carbon;
+use App\Models\Pegawais;
+use App\Models\JadwalKerja;
+use App\Models\JadwalKuliah;
 use Illuminate\Http\Request;
 
 class JadwalKerjaController extends Controller
 {
+    public function index(Request $request)
+    {
+        // Ambil bulan yang dipilih dari input (format: "YYYY-MM")
+        $selectedMonth = $request->query('month', now()->format('Y-m')); // Default: bulan ini
+
+        // Filter pegawai dan jadwal kerja sesuai bulan
+        $pegawais = Pegawais::whereHas('jadwalKerja', function ($query) use ($selectedMonth) {
+            $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth]);
+        })->with(['jadwalKerja' => function ($query) use ($selectedMonth) {
+            $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth]);
+        }])->get();
+
+        // Return ke view jadwal kuliah
+        return view('pegawai.jadwal', compact('pegawais', 'selectedMonth'));
+    }
+
     public function buatJadwal(Request $request)
     {
-        // Validasi input untuk memastikan pegawai_id dikirim
-        $request->validate([
-            'pegawai_id' => 'required|exists:pegawais,id',
-        ]);
+        $pegawai = Pegawais::with('jadwalKuliah')->findOrFail($request->pegawai_id);
 
-        $pegawaiId = $request->pegawai_id;
+        $startDate = Carbon::tomorrow(); // Mulai dari besok
+        $endDate = $startDate->copy()->endOfMonth(); // Akhir bulan sesuai bulan startDate
 
-        // Ambil jadwal kuliah pegawai
-        $jadwalKuliah = JadwalKuliah::where('pegawai_id', $pegawaiId)->get();
+        $tanggalKerja = $startDate->copy();
+        while ($tanggalKerja->lte($endDate)) {
+            $hari = $tanggalKerja->format('l'); // Nama hari dalam bahasa Inggris
+            $hariIndo = [
+                'Monday' => 'Senin',
+                'Tuesday' => 'Selasa',
+                'Wednesday' => 'Rabu',
+                'Thursday' => 'Kamis',
+                'Friday' => 'Jumat',
+                'Saturday' => 'Sabtu',
+                'Sunday' => 'Minggu'
+            ][$hari];
 
-        if ($jadwalKuliah->isEmpty()) {
-            return redirect()->back()->with('error', 'Pegawai ini tidak memiliki jadwal kuliah.');
-        }
+            $jadwalKuliah = $pegawai->jadwalKuliah->firstWhere('hari', $hariIndo);
 
-        // Mulai dari tanggal besok hingga satu bulan ke depan
-        $startDate = Carbon::now()->addDay();
-        $endDate = $startDate->copy()->endOfMonth();
+            if ($jadwalKuliah) {
+                if ($jadwalKuliah->jam_selesai === '00:00:00') {
+                    // Jika hari libur
+                    JadwalKerja::create([
+                        'pegawai_id' => $pegawai->id,
+                        'tanggal' => $tanggalKerja->toDateString(),
+                        'jam_mulai' => '00:00:00',
+                        'jam_selesai' => '00:00:00',
+                    ]);
+                } else {
+                    $jamSelesaiKuliah = Carbon::createFromFormat('H:i:s', $jadwalKuliah->jam_selesai);
+                    $jamMulaiKerja = $jamSelesaiKuliah->copy()->addMinutes(30);
 
-        // Loop melalui semua tanggal dari besok hingga akhir bulan
-        $currentDate = $startDate;
-        while ($currentDate <= $endDate) {
-            // Cari jadwal kuliah pada hari tertentu
-            $hariIni = $currentDate->locale('id')->isoFormat('dddd'); // Contoh: "Senin", "Selasa"
-            $jadwalHariIni = $jadwalKuliah->where('hari', $hariIni)->first();
+                    if ($jamMulaiKerja->hour < 15) {
+                        $jamMulaiKerja = Carbon::createFromTime(15, 0, 0);
+                    }
 
-            if ($jadwalHariIni) {
-                // Tentukan jam mulai kerja
-                $jamSelesaiKuliah = Carbon::createFromTimeString($jadwalHariIni->jam_selesai);
-                $jamMulaiKerja = $jamSelesaiKuliah->addMinutes(30); // Tambahkan 30 menit
-
-                // Jika jam selesai kuliah sebelum atau sama dengan 14:30, mulai kerja pukul 15:00
-                if ($jamSelesaiKuliah->lessThanOrEqualTo(Carbon::createFromTimeString('14:30'))) {
-                    $jamMulaiKerja = Carbon::createFromTimeString('15:00');
+                    JadwalKerja::create([
+                        'pegawai_id' => $pegawai->id,
+                        'tanggal' => $tanggalKerja->toDateString(),
+                        'jam_mulai' => $jamMulaiKerja->toTimeString(),
+                        'jam_selesai' => '21:00:00', // Atur jam selesai kerja default
+                    ]);
                 }
-
-                // Tambahkan jadwal kerja ke database
-                JadwalKerja::create([
-                    'pegawai_id' => $pegawaiId,
-                    'tanggal' => $currentDate->toDateString(),
-                    'jam_mulai' => $jamMulaiKerja->toTimeString(),
-                    'jam_selesai' => '21:00', // Contoh: jam kerja selesai pukul 21:00
-                ]);
             }
 
-            // Lanjut ke tanggal berikutnya
-            $currentDate->addDay();
+            $tanggalKerja->addDay();
         }
 
-        return redirect()->back()->with('success', 'Jadwal kerja berhasil dibuat untuk satu bulan!');
+        // Flash message sukses
+        session()->flash('success', 'Jadwal kerja berhasil dibuat!');
+
+        return redirect()->back();
     }
 }

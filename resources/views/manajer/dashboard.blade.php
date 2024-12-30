@@ -76,7 +76,7 @@
 
                         <h1 class="pt-2 mb-12  text-center">Jadwal Pegawai</h1>
                     </div>
-                    <a type="submit " href="{{ route('jadwalpegawai') }}"
+                    <a type="submit " href="{{ url('admin/jadwalpegawai') }}"
                         class="w-4/5 text-amber-400 bg-zinc-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-xs px-1 py-1.5 text-center absolute bottom-4 ">
                         Lihat
                     </a>

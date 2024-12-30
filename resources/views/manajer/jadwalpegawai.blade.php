@@ -1,168 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Pegawai</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-[#f8f5e9] font-sans">
-    <div class="container mx-auto py-10 px-4">
-        <!-- Back Button and Profile Section -->
-        <div class="flex items-center justify-between mb-2">
-            <button onclick="history.back()" class="text-[#7d7d7d] mr-4 text-2xl">←</button>
-            
-            <!-- Profile Section with Halo Admin -->
-            <div class="flex items-center space-x-2">
-                <span class="text-[#7d7d7d]">Halo Admin</span>
-                <div class="w-8 h-8 bg-[#d1d1d1] rounded-full flex items-center justify-center">
-                    <img src="path-to-icon" alt="Admin" class="w-6 h-6 rounded-full">
-                </div>
-            </div>
-        </div>
-        
-        <!-- Title Jadwal Pegawai -->
-        <div class="text-center mb-6">
-            <h1 class="text-4xl font-bold text-[#3e3e3e]">Jadwal Pegawai</h1>
-        </div>
-
-        <!-- Date Picker for Month Selection -->
-        <form method="GET" class="flex justify-start mb-6">
-            <input type="month" name="month" class="text-sm bg-[#EECB6D] text-[#000000] font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFBF00]"
-                   value="<?php echo isset($_GET['month']) ? htmlspecialchars($_GET['month']) : date('Y-m'); ?>" onchange="this.form.submit()">
+<x-layout>
+    <div class="w-full max-w-md rounded-2xl shadow-md p-6">
+        <!-- Header -->
+        <form action="{{ route('dashboard') }}" method="GET" class="absolute top-5 left-5">
+            @csrf
+            <button type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+                </svg>
+            </button>
         </form>
 
+        <!-- Title -->
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Jadwal Pegawai</h1>
+
+        <!-- Date Input Styled as Button -->
+        <div class="relative mt-2 mb-6 text-left">
+            <!-- Form untuk memilih bulan -->
+            <form method="GET" action="{{ route('jadwalpegawai.index') }}">
+                <input type="month" name="month" id="monthInput"
+                    class="text-sm bg-[#F1C93B] text-black font-medium py-1 px-3 rounded-lg appearance-none w-auto text-left cursor-pointer focus:outline-none"
+                    value="{{ $selectedMonth }}" onchange="this.form.submit()" />
+            </form>
+        </div>
+
         <!-- Schedule List -->
-        <div class="space-y-8">
-            <?php
-                // Get selected month and year from the input
-                $selectedMonth = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
-                list($year, $month) = explode('-', $selectedMonth);
-
-                // Example schedule data (date, name, time)
-                $schedules = [
-                    '2024-10-09' => [
-                        ['name' => 'Pegawai D', 'time' => '07.00 - 13.00 WIB'],
-                        ['name' => 'Pegawai B', 'time' => '13.00 - 18.00 WIB'],
-                        ['name' => 'Pegawai A', 'time' => '18.00 - 21.00 WIB'],
-                    ],
-                    '2024-10-10' => [
-                        ['name' => 'Pegawai C', 'time' => '08.00 - 14.00 WIB'],
-                        ['name' => 'Pegawai D', 'time' => '14.00 - 19.00 WIB'],
-                    ],
-                    // Add more dates and schedules as needed
-                ];
-
-                $foundSchedules = false; // Flag to check if any schedule is found for the selected month
-
-                // Filter and display schedules for the selected month
-                foreach ($schedules as $date => $daySchedules) {
-                    $scheduleDate = new DateTime($date);
-                    if ($scheduleDate->format('Y-m') === "$year-$month") {
-                        if (!$foundSchedules) {
-                            $foundSchedules = true; // Mark as found when displaying the first schedule
-                        }
-                        echo "<div>";
-                        echo "<h2 class='text-xl font-semibold text-[#4a4a4a]'>" . $scheduleDate->format('l, j F Y') . "</h2>";
-                        echo "<div class='space-y-4 mt-2'>";
-                        foreach ($daySchedules as $schedule) {
-                            echo "
-                            <div class='flex justify-between items-center bg-[#e5e5e5] p-4 rounded-md shadow cursor-pointer'>
-                                <div onclick=\"openEditScheduleModal('{$schedule['name']}', '{$schedule['time']}')\" class='flex-grow'>
-                                    <p class='font-medium text-[#3e3e3e]'>{$schedule['name']}</p>
-                                    <p class='text-sm text-[#7d7d7d]'>{$schedule['time']}</p>
-                                </div>
-                                <button onclick=\"openAttendanceModal('{$schedule['name']}')\" class='bg-[#333333] text-[#FFFFFF] px-4 py-2 rounded-md'>Presensi</button>
-                            </div>";
-                        }
-                        echo "</div></div>";
-                    }
-                }
-
-                // If no schedules are found, display the message
-                if (!$foundSchedules) {
-                    echo "<p class='text-center text-lg font-medium text-[#4a4a4a]'>Tidak ada jadwal pegawai pada bulan ini</p>";
-                }
-            ?>
+        <div id="scheduleList" class="space-y-4">
+            <!-- Jadwal akan di-update oleh JavaScript -->
+            @foreach ($pegawais as $pegawai)
+                @foreach ($pegawai->jadwalKerja as $jadwal)
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700">
+                            {{ \Carbon\Carbon::parse($jadwal->tanggal)->format('l, j F Y') }}
+                        </h3>
+                        <div class="bg-gray-400 text-white p-3 rounded-2xl mt-1">
+                            <p class="font-medium">{{ $pegawai->nama }}</p>
+                            @if ($jadwal->jam_selesai === '00:00:00')
+                                <span class="text-red-500">Libur Kerja</span>
+                            @else
+                                <p class="text-sm">
+                                    {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H.i') }} -
+                                    {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H.i') }}
+                                </p>
+                                <!-- Button Presensi -->
+                                <button onclick="openPresenceModal('{{ $pegawai->id }}', '{{ $jadwal->tanggal }}')"
+                                    class="bg-blue-500 text-white py-1 px-3 rounded-lg mt-2 hover:bg-blue-600">
+                                    Presensi
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            @endforeach
         </div>
     </div>
 
-    <!-- Attendance Modal -->
-    <div id="attendanceModal" class="fixed inset-0 bg-[#00000080] flex justify-center items-center hidden">
-        <div class="bg-[#ffffff] p-6 rounded-lg shadow-lg w-80 max-w-md relative">
-            <button onclick="closeAttendanceModal()" class="absolute top-2 right-2 text-[#7d7d7d] text-2xl">&times;</button>
-            <h2 class="text-lg font-semibold text-[#3e3e3e] mb-2">Presensi</h2>
-            <p id="employeeName" class="text-sm font-medium text-[#4a4a4a] mb-4">Pegawai 'D'</p>
+    <!-- Modal untuk Presensi -->
+    <div id="presenceModal" class="fixed z-50 inset-0 hidden bg-black bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white w-full max-w-lg rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-700 mb-4">Presensi Pegawai</h2>
+            <form action="{{ route('jadwalpegawai.savePresence') }}" method="POST">
+                @csrf
+                <input type="hidden" id="pegawaiId" name="pegawai_id">
+                <input type="hidden" id="tanggalPresensi" name="tanggal">
 
-            <!-- Attendance Options -->
-            <div class="space-y-2 text-[#FFD700]">
-                <label class="flex items-center">
-                    <input type="checkbox" class="mr-2" id="hadir"> Hadir
-                </label>
-                <label class="flex items-center">
-                    <input type="checkbox" class="mr-2" id="sakit"> Sakit
-                </label>
-                <label class="flex items-center">
-                    <input type="checkbox" class="mr-2" id="izin"> Izin
-                </label>
-            </div>
+                <label for="status" class="block text-sm font-medium text-gray-600 mb-2">Status Kehadiran:</label>
+                <select id="status" name="status"
+                    class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    <option value="Hadir">Hadir</option>
+                    <option value="Izin">Izin</option>
+                    <option value="Sakit">Sakit</option>
+                    <option value="Alpha">Alpha</option>
+                </select>
 
-            <!-- Save Button -->
-            <button onclick="saveAttendance()" class="w-full mt-5 bg-[#333333] text-[#FFD700] py-2 rounded-md">Simpan</button>
+                <div class="mt-4 flex justify-end">
+                    <button type="button" onclick="closePresenceModal()"
+                        class="bg-gray-400 text-white py-1 px-4 rounded-lg mr-2 hover:bg-gray-500">
+                        Batal
+                    </button>
+                    <button type="submit" class="bg-blue-500 text-white py-1 px-4 rounded-lg hover:bg-blue-600">
+                        Simpan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Edit Schedule Modal -->
-    <div id="editScheduleModal" class="fixed inset-0 bg-[#00000080] flex justify-center items-center hidden">
-        <div class="bg-[#ffffff] p-6 rounded-lg shadow-lg w-80 max-w-md relative">
-            <button onclick="closeEditScheduleModal()" class="absolute top-2 right-2 text-[#7d7d7d] text-2xl">&times;</button>
-            <h2 class="text-lg font-semibold text-[#3e3e3e] mb-2">Ubah Jadwal Pegawai</h2>
-            <p id="editEmployeeName" class="text-sm font-medium text-[#4a4a4a] mb-4">Pegawai 'D'</p>
 
-            <!-- Input Fields for Jam Masuk and Jam Selesai -->
-            <label class="block text-sm font-medium text-[#4a4a4a] mb-1">Jam Masuk</label>
-            <input type="text" id="jamMasuk" placeholder="Input Jam Masuk" class="w-full mb-3 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD700]" />
-
-            <label class="block text-sm font-medium text-[#4a4a4a] mb-1">Jam Selesai</label>
-            <input type="text" id="jamSelesai" placeholder="Input Jam Selesai" class="w-full mb-5 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD700]" />
-
-            <!-- Save Button -->
-            <button onclick="saveSchedule()" class="w-full bg-[#333333] text-[#FFD700] py-2 rounded-md">Simpan</button>
-        </div>
-    </div>
-
-    <!-- JavaScript for modal functionality -->
     <script>
-        function openAttendanceModal(employee) {
-            document.getElementById('employeeName').textContent = `Pegawai '${employee}'`;
-            document.getElementById('attendanceModal').classList.remove('hidden');
-        }
-        
-        function closeAttendanceModal() {
-            document.getElementById('attendanceModal').classList.add('hidden');
+        // Function to open the modal and set the pegawai ID and tanggal
+        function openPresenceModal(pegawaiId, tanggal) {
+            document.getElementById('pegawaiId').value = pegawaiId;
+            document.getElementById('tanggalPresensi').value = tanggal;
+            document.getElementById('presenceModal').classList.remove('hidden');
         }
 
-        function saveAttendance() {
-            // Add code to handle the attendance save action here
-            closeAttendanceModal();
+        // Function to close the modal
+        function closePresenceModal() {
+            document.getElementById('presenceModal').classList.add('hidden');
         }
 
-        function openEditScheduleModal(employee, time) {
-            document.getElementById('editEmployeeName').textContent = `Pegawai '${employee}'`;
-            const [jamMasuk, jamSelesai] = time.split(" - ");
-            document.getElementById('jamMasuk').value = jamMasuk;
-            document.getElementById('jamSelesai').value = jamSelesai.replace(" WIB", "");
-            document.getElementById('editScheduleModal').classList.remove('hidden');
-        }
+        // Function to update schedule based on selected month
+        function updateSchedule() {
+            const monthInput = document.getElementById("monthInput").value;
+            const scheduleList = document.getElementById("scheduleList");
+            scheduleList.innerHTML = ""; // Clear the current list
 
-        function closeEditScheduleModal() {
-            document.getElementById('editScheduleModal').classList.add('hidden');
-        }
-
-        function saveSchedule() {
-            // Add code to save the new schedule
-            closeEditScheduleModal();
+            if (schedules[monthInput]) {
+                // Populate schedule for the selected month
+                schedules[monthInput].forEach(schedule => {
+                    const scheduleItem = document.createElement("div");
+                    scheduleItem.innerHTML = `
+                        <h3 class="text-lg font-semibold text-gray-700">${schedule.date}</h3>
+                        <div class="bg-gray-400 text-white p-3 rounded-2xl mt-1">
+                            <p class="font-medium">${schedule.name}</p>
+                            <p class="text-sm">${schedule.time}</p>
+                            <button onclick="openPresenceModal()" class="bg-blue-500 text-white py-1 px-3 rounded-lg mt-2 hover:bg-blue-600">
+                                Presensi
+                            </button>
+                        </div>
+                    `;
+                    scheduleList.appendChild(scheduleItem);
+                });
+            } else {
+                // Display message if no schedule is available for the selected month
+                scheduleList.innerHTML = "<p class='text-center text-gray-600'>Tidak ada jadwal untuk bulan ini.</p>";
+            }
         }
     </script>
-</body>
-</html>
+</x-layout>

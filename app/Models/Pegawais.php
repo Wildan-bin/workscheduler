@@ -31,4 +31,14 @@ class Pegawais extends Authenticatable
     {
         return $this->hasMany(JadwalKuliah::class, 'pegawai_id', 'id');
     }
+
+    public function jadwalKerja(): HasMany
+    {
+        return $this->hasMany(JadwalKerja::class, 'pegawai_id', 'id');
+    }
+
+    public function presensi()
+    {
+        return $this->hasMany(Presensi::class);
+    }
 }

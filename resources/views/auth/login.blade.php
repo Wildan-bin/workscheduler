@@ -33,7 +33,7 @@
                 </div>
             @endif
             <div
-                class="w-full bg-amber-400 rounded-[40px] shadow border md:mt-0 sm:max-w-md xl:p-0 shadow-[4px_4px_10px_3px_#c7c7c7]">
+                class="w-full bg-[#EECB6D] rounded-[40px] shadow border md:mt-0 sm:max-w-md xl:p-0 shadow-[4px_4px_10px_3px_#c7c7c7]">
                 <div class="p-6 py-10 space-y-4 md:space-y-6 sm:p-8">
 
                     <form class="space-y-4 md:space-y-6" action="{{ route('login.post') }}" method="POST">

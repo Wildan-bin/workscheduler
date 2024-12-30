@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai;
+use App\Models\Pegawais;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +28,7 @@ class AuthController extends Controller
             if ($user->jabatan === 'admin') {
                 return redirect()->route("dashboard");
             } elseif ($user->jabatan === 'pegawai') {
-                return redirect()->route("penjadwalan");
+                return redirect()->route("profile");
             }
         }
         return redirect(route("login"))
@@ -49,7 +49,7 @@ class AuthController extends Controller
             "password" => "required"
         ]);
 
-        $user = new Pegawai();
+        $user = new Pegawais();
         $user->nama = $request->fullname;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);

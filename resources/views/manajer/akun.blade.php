@@ -27,7 +27,7 @@
             </div>
         @endif
         <div
-            class="w-full bg-amber-400 rounded-[40px] shadow border md:mt-0 sm:max-w-md xl:p-0 shadow-[4px_4px_10px_3px_#c7c7c7]">
+            class="w-full bg-[#EECB6D] rounded-[40px] border md:mt-0 sm:max-w-md xl:p-0 shadow-[4px_4px_10px_3px_#c7c7c7]">
             <div class="p-6 py-10 space-y-4 md:space-y-6 sm:p-8">
 
                 <form class="space-y-4 md:space-y-6" action="{{ route('register.post') }}" method="POST">
@@ -54,7 +54,7 @@
                     </div>
                     <div>
                         <input type="password" name="password" id="password" placeholder="password"
-                            class="text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-[30px] focus:ring-primary-600 focus:border-primary-600 block w-full px-3 py-1.5"
+                            class="text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-[30px] focus:ring-primary-600 focus:border-primary-600 block w-full px-3 py-1.5  "
                             required="">
                         @if ($errors->has('password'))
                             <span class="text-red-900 text-xs">
