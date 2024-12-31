@@ -86,12 +86,12 @@ class JadwalKuliahController extends Controller
 
         // Tentukan rentang tanggal untuk jadwal kerja
         $startDate = Carbon::tomorrow(); // Mulai dari besok
-        $currentMonth = Carbon::now()->month;
+        $currentMonth = Carbon::tomorrow()->month;
 
         // Jika bulan saat ini <= Juni, buat jadwal hingga akhir Juni. Jika > Juni, buat hingga akhir Desember.
         $endDate = $currentMonth <= 6
-            ? Carbon::create(Carbon::now()->year, 6, 30) // Akhir Juni
-            : Carbon::create(Carbon::now()->year, 12, 31); // Akhir Desember
+            ? Carbon::create(Carbon::tomorrow()->year, 6, 30) // Akhir Juni
+            : Carbon::create(Carbon::tomorrow()->year, 12, 31); // Akhir Desember
 
         $tanggalKerja = $startDate->copy();
 

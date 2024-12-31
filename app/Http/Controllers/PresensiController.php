@@ -49,7 +49,7 @@ class PresensiController extends Controller
         Presensi::create([
             'pegawai_id' => $validated['pegawai_id'],
             'tanggal' => $validated['tanggal'],
-            'status' => $validated['status'],
+            'status_kehadiran' => $validated['status'],
         ]);
 
         return redirect()->back()->with('success', 'Presensi berhasil disimpan.');

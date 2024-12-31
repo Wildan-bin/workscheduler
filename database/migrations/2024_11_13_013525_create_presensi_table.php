@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onDelete('cascade');
             $table->date('tanggal');
-            $table->enum('status_kehadiran', ['Hadir', 'Izin', 'Tidak Hadir']);
+            $table->string('status_kehadiran');
             $table->timestamps();
         });
     }

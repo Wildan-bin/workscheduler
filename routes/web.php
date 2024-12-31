@@ -8,13 +8,17 @@ use App\Http\Controllers\JadwalKerjaController;
 use App\Http\Controllers\Pegawai\JadwalKuliahController;
 
 Route::get('/', function () {
+    return "ini akan menjadi halaman katalog produk untuk customer";
+});
+
+Route::get('/admin', function () {
     return redirect()->route('login');
 });
 
 Route::middleware("auth")->group(function () {
+    Route::view("/admin/akun", "manajer/akun")->name("account");
     Route::view("/admin", "manajer/dashboard")->name("dashboard");
     Route::view("/admin/catalog", "manajer/katalog")->name("catalog");
-    Route::view("/admin/akun", "manajer/akun")->name("account");
     Route::view("admin/jadwalkuliah", "manajer/jadwalkuliah")->name("jadwalkuliah");
     Route::view("admin/jadwalpegawai", "manajer/jadwalpegawai")->name("jadwalpegawai");
 
@@ -25,7 +29,6 @@ Route::middleware("auth")->group(function () {
 });
 
 Route::post('pegawai/penjadwalan', [JadwalKuliahController::class, 'store'])->name('penjadwalan.store');
-Route::get('pegawai/jadwal', [JadwalKerjaController::class, 'index'])->name('jadwalpegawai.index');
 Route::get('admin/jadwalkuliah', [JadwalKuliahController::class, 'index'])->name('jadwalkuliah.index');
 Route::post('admin/jadwalkuliah', [JadwalKerjaController::class, 'buatJadwal'])->name('jadwalKerja.buat');
 
