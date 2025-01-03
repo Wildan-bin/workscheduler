@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JadwalController;
 
 Route::get('/', function () {
+    return redirect()->route('katalog');
+});
+
+Route::get('/admin', function () {
     return redirect()->route('login');
 });
 
@@ -24,6 +28,9 @@ Route::post("/register", [AuthController::class, "registerPost"])
     ->name("register.post");
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::view("katalog", "customer/katalog")->name("katalog");
+Route::view("produk", "customer/produk")->name("produk");
 
 Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
 Route::get('/jadwal/create', [JadwalController::class, 'create'])->name('jadwal.create');

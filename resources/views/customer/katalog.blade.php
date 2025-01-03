@@ -12,7 +12,7 @@
 <body class="bg-amber-50 font-[Poppins]">
 
 <!-- Background separuh berwarna kuning dengan border melengkung di bagian bawah -->
-<div class="absolute top-0 left-0 w-full h-1/3 bg-[#EECB6D] z-0 rounded-b-2xl overflow-hidden"></div>
+<div class="absolute top-0 left-0 w-full h-1/3 bg-[#EECB6D] rounded-b-2xl"></div>
 
 <!-- Search Bar -->
 <div class="relative flex justify-center mt-6 px-4 z-10"> 
@@ -20,13 +20,13 @@
         <input 
             type="text" 
             placeholder="Cari" 
-            class="flex-grow px-4 py-2 text-gray-800 bg-white focus:outline-none rounded-full"
+            class="flex-grow px-4 py-2 text-gray-800 bg-white    focus:outline-none rounded-full"
         >
     </div>
 </div>
 
 <!-- Header Banner dengan Jarak Lebih Dekat ke Elemen Bawah -->
-<div class="relative max-w-4xl mx-auto p-4 pb-0 mt-2 z-10"> 
+<div class="relative max-w-4xl mx-auto p-4 pb-0 mt-2"> 
     <div class="relative rounded-lg flex flex-col items-center">
         <img src="https://i.pinimg.com/564x/6a/b1/38/6ab138742317410a16644279f5fe406e.jpg" 
              alt="Perfume" 
@@ -35,7 +35,7 @@
 </div>
 
 <!-- Categories Tabs -->
-<div class="max-w-4xl mx-auto my-6 mb-3 flex justify-center gap-6">
+<div class="max-w-4xl mx-auto mt-6 lg:mt-24 mb-3 flex justify-center gap-6">
     <button id="btn-men" onclick="showCategory('men')" class="category-btn w-40 px-4 py-2 rounded-full shadow-md">
         For Men
     </button>
