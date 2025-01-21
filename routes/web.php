@@ -13,8 +13,8 @@ Route::get('/', function () {
 Route::middleware("auth")->group(function () {
     Route::view("/admin", "manajer/dashboard")->name("dashboard");
     Route::view("/admin/catalog", "manajer/katalog")->name("catalog");
-    Route::view("/admin/akun", "manajer/akun")->name("account");
     Route::view("pegawai/penjadwalan", "pegawai/penjadwalan")->name("penjadwalan");
+    Route::view("/admin/akun", "manajer/akun")->name("account");
 });
 
 Route::view("admin/jadwal", "manajer/jadwal")->name("jadwalpegawai");

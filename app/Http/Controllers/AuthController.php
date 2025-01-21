@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
+use App\Models\Pegawais;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -49,7 +50,7 @@ class AuthController extends Controller
             "password" => "required"
         ]);
 
-        $user = new Pegawai();
+        $user = new Pegawais();
         $user->nama = $request->fullname;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
