@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\ProdukController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -10,8 +11,15 @@ Route::get('/', function () {
 
 Route::middleware("auth")->group(function () {
     Route::view("/admin", "manajer/dashboard")->name("dashboard");
-    Route::view("/admin/catalog", "manajer/katalog")->name("catalog");
 });
+
+Route::get('/admin/katalog', [ProdukController::class, 'index'])->name('catalog');
+Route::post('/admin/katalog', [ProdukController::class, 'store'])->name('produk.store');
+Route::get('/admin/katalog/edit/{id}', [ProdukController::class, 'edit']);
+
+Route::put('/admin/katalog/{id}', [ProdukController::class, 'update'])->name('produk.update');
+Route::delete('/admin/katalog/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+
 
 Route::get("/login", [AuthController::class, "login"])
     ->name("login");
