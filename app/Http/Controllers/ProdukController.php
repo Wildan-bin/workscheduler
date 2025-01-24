@@ -8,12 +8,16 @@ use App\Http\Controllers\Controller;
 
 class ProdukController extends Controller
 {
-    public function index(Request $request)
-    {
-
+    public function index(Request $request) {
         $products = Produk::all();
 
         return view('manajer.katalog', compact('products'));
+    }
+
+    public function indexKatalog(Request $request)
+    {
+        $products = Produk::all();
+        return view('customer.katalog', compact('products'));
     }
 
     public function store(Request $request)
