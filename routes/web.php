@@ -51,7 +51,7 @@ Route::get('/katalog', function () {
         'title' => 'Daftar Produk',
         'produks' => $produks,
     ]);
-});
+})->name('katalog');
 
 
 Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
