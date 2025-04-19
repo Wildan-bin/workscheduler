@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Produk;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\PresensiController;
@@ -9,6 +11,9 @@ use App\Http\Controllers\Pegawai\JadwalKuliahController;
 
 Route::get('/', function () {
     return "ini akan menjadi halaman katalog produk untuk customer";
+
+Route::get('/', function () {
+    return redirect()->route('katalog');
 });
 
 Route::get('/admin', function () {
@@ -16,6 +21,7 @@ Route::get('/admin', function () {
 });
 
 Route::middleware("auth")->group(function () {
+
     Route::view("/admin/akun", "manajer/akun")->name("account");
     Route::view("/admin", "manajer/dashboard")->name("dashboard");
     Route::view("/admin/catalog", "manajer/katalog")->name("catalog");
@@ -38,6 +44,17 @@ Route::post('admin/jadwalpegawai', [PresensiController::class, 'savePresence'])-
 Route::get('pegawai/rekapkehadiran', [PresensiController::class, 'rekapKehadiran'])->name('rekapkehadiran');
 Route::post('pegawai/jadwal', [JadwalKerjaController::class, 'index'])->name('jadwalkerja.index');
 
+    
+    Route::view("/admin", "manajer/dashboard")->name("dashboard");
+});
+
+Route::get('/admin/katalog', [ProdukController::class, 'index'])->name('catalog');
+Route::post('/admin/katalog', [ProdukController::class, 'store'])->name('produk.store');
+Route::get('/admin/katalog/edit/{id}', [ProdukController::class, 'edit']);
+
+Route::put('/admin/katalog/{id}', [ProdukController::class, 'update'])->name('produk.update');
+Route::delete('/admin/katalog/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+
 
 Route::get("/login", [AuthController::class, "login"])
     ->name("login");
@@ -50,6 +67,21 @@ Route::post("/register", [AuthController::class, "registerPost"])
     ->name("register.post");
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::view("produk", "customer/produk")->name("produk");
+
+Route::get('/katalog', function () {
+    // Cek apakah ada filter pencarian
+    $produks = request('search') 
+        ? Produk::filter(request(['search']))->latest()->paginate(9)->withQueryString()
+        : Produk::latest()->paginate(9); // Tampilkan semua produk jika tidak ada pencarian
+
+    return view('customer/katalog', [
+        'title' => 'Daftar Produk',
+        'produks' => $produks,
+    ]);
+})->name('katalog');
+
 
 Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
 Route::get('/jadwal/create', [JadwalController::class, 'create'])->name('jadwal.create');
