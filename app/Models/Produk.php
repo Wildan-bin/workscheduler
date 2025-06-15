@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 class Produk extends Model
 {
     protected $fillable = [
+        'id',
         'name', 
         'size', 
         'price', 
@@ -15,6 +16,16 @@ class Produk extends Model
         'stock',
         'image'
     ];
+
+    public function variasis()
+    {
+        return $this->hasMany(ProdukVariasi::class);
+    }
+
+    public function kategoris()
+    {
+        return $this->belongsToMany(Kategori::class, 'produk_kategoris', 'produk_id', 'kategori_id');
+    }
 
     public function scopeFilter(Builder $query, array $filters): void
     {

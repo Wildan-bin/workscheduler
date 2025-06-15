@@ -1,3 +1,4 @@
+<?php
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -15,6 +16,23 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <style>
+        /* ...existing styles... */
+        
+        #variations-container {
+            transition: max-height 0.2s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .product-card {
+            transition: transform 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
 </head>
 <body>
     <div id="app">
