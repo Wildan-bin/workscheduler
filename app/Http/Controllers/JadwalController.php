@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shift;
 use App\Models\Jadwal;
-use App\Models\Pegawai;
+use App\Models\Pegawais;
 use Illuminate\Http\Request;
 
 class JadwalController extends Controller
@@ -12,14 +12,14 @@ class JadwalController extends Controller
     //
     public function index()
     {
-        $pegawais = Pegawai::all();
+        $pegawais = Pegawais::all();
         $shifts = Shift::all();
         return view('jadwal.index', compact('pegawais', 'shifts'));
     }
 
     public function create()
     {
-        $pegawais = Pegawai::all();
+        $pegawais = Pegawais::all();
         $shifts = Shift::all();
         return view('jadwal.create', compact('pegawais', 'shifts'));
     }
@@ -29,7 +29,7 @@ class JadwalController extends Controller
         $input = $request->all();
 
         // Ambil data ketersediaan pegawai
-        $pegawai = Pegawai::find($input['pegawai_id']);
+        $pegawai = Pegawais::find($input['pegawai_id']);
         $ketersediaan = json_decode($pegawai->ketersediaan, true);
 
         // Algoritma sederhana untuk mencocokkan ketersediaan

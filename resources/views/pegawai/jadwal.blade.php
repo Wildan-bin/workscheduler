@@ -48,30 +48,7 @@
                 @endforeach
             @endforeach
 
-            <!-- Repeat for other days -->
-            {{-- <div>
-                <h3 class="text-lg font-semibold text-gray-700">Rabu, 10 Oktober 2024</h3>
-                <div class="bg-gray-400 text-white p-3 rounded-2xl mt-1">
-                    <p class="font-medium">Rahmalia Agista</p>
-                    <p class="text-sm">13.00 - 18.00 WIB</p>
-                </div>
-            </div>
-
-            <div>
-                <h3 class="text-lg font-semibold text-gray-700">Kamis, 11 Oktober 2024</h3>
-                <div class="bg-gray-400 text-white p-3 rounded-2xl mt-1">
-                    <p class="font-medium">Rahmalia Agista</p>
-                    <p class="text-sm">18.00 - 21.00 WIB</p>
-                </div>
-            </div>
-
-            <div>
-                <h3 class="text-lg font-semibold text-gray-700">Jumat, 12 Oktober 2024</h3>
-                <div class="bg-gray-400 text-white p-3 rounded-2xl mt-1">
-                    <p class="font-medium">Rahmalia Agista</p>
-                    <p class="text-sm">12.00 - 15.00 WIB</p>
-                </div>
-            </div> --}}
+            
         </div>
     </div>
 </x-layout>

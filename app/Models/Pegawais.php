@@ -39,6 +39,6 @@ class Pegawais extends Authenticatable
 
     public function presensi()
     {
-        return $this->hasMany(Presensi::class);
+        return $this->hasMany(Presensi::class, 'pegawai_id', 'id');
     }
 }

@@ -63,12 +63,15 @@
                         @endif
                     </div>
                     <div>
-                        <input type="text" name="jabatan" id="jabatan" placeholder="jabatan"
-                            class="text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-[30px] focus:ring-primary-600 focus:border-primary-600 block w-full px-3 py-1.5  mb-12"
-                            required="">
+                        <select name="jabatan" id="jabatan" required
+                            class="text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-[30px] focus:ring-primary-600 focus:border-primary-600 block w-full px-3 py-1.5 mb-12">
+                            <option value="" disabled selected>jabatan</option>
+                            <option value="admin" {{ old('jabatan') == 'admin' ? 'selected' : '' }}>admin</option>
+                            <option value="pegawai" {{ old('jabatan') == 'pegawai' ? 'selected' : '' }}>pegawai</option>
+                        </select>
                         @if ($errors->has('jabatan'))
                             <span class="text-red-900 text-xs">
-                                {{ $errors->first('password') }}
+                                {{ $errors->first('jabatan') }}
                             </span>
                         @endif
                     </div>

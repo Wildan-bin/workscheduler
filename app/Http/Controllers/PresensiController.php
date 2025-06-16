@@ -12,13 +12,21 @@ class PresensiController extends Controller
     public function rekapKehadiran()
     {
         // Ambil data pegawai yang sedang login
-        $pegawai = Auth::user()->id; // Pastikan Anda menggunakan Auth untuk login pegawai
+        $pegawai = Pegawais::find(Auth::id()); // Pastikan Anda menggunakan Auth untuk login pegawai
 
         // Ambil data kehadiran berdasarkan pegawai yang login
-        $kehadiran = $pegawai->kehadiran()->orderBy('tanggal', 'desc')->get();
+        $kehadiran = $pegawai->presensi()->orderBy('tanggal', 'desc')->get();
 
         // Return ke view rekap kehadiran
         return view('pegawai.rekapkehadiran', compact('pegawai', 'kehadiran'));
+    }
+
+    public function adminRekapKehadiran()
+    {
+        $kehadiran = Presensi::with('pegawai')->get();
+
+        // Return ke view rekap kehadiran
+        return view('manajer.rekapkehadiran', compact('kehadiran'));
     }
 
     public function index(Request $request)

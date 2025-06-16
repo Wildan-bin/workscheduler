@@ -2,7 +2,7 @@
     <div class="p-6">
 
         <!-- Header -->
-        <form action="{{ route('profile') }}" method="GET" class="absolute top-5 left-5">
+        <form action="{{ route('dashboard') }}" method="GET" class="absolute top-5 left-5">
             @csrf
             <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -27,6 +27,7 @@
                 <table class="table-auto border-collapse w-full bg-white shadow-md rounded-lg">
                     <thead>
                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 text-left">Nama Pegawai</th>
                             <th class="py-3 px-6 text-left">Tanggal</th>
                             <th class="py-3 px-6 text-left">Jam Masuk</th>
                             <th class="py-3 px-6 text-left">Jam Keluar</th>
@@ -36,6 +37,7 @@
                     <tbody class="text-gray-700 text-sm font-light">
                         @foreach ($kehadiran as $data)
                             <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="py-3 px-6">{{ $data->pegawai->nama ?? 'N/A' }}</td>
                                 <td class="py-3 px-6">
                                     {{ \Carbon\Carbon::parse($data->tanggal)->translatedFormat('l, j F Y') }}</td>
                                 <td class="py-3 px-6">{{ \Carbon\Carbon::parse($data->jam_masuk)->format('H:i') }}</td>

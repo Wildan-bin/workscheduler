@@ -29,10 +29,11 @@ Route::middleware("auth")->group(function () {
     Route::view("/admin/catalog", "manajer/katalog")->name("catalog");
     Route::view("admin/jadwalkuliah", "manajer/jadwalkuliah")->name("jadwalkuliah");
     Route::view("admin/jadwalpegawai", "manajer/jadwalpegawai")->name("jadwalpegawai");
+    Route::view("admin/rekapkehadiran", "manajer/rekapkehadiran")->name("adminkehadiran");
 
     Route::view("pegawai/penjadwalan", "pegawai/penjadwalan")->name("penjadwalan");
     Route::view("pegawai/profile", "pegawai/profile")->name("profile");
-    Route::view("pegawai/jadwal", "pegawai/jadwal")->name("jadwalpegawai");
+    Route::view("pegawai/jadwal", "pegawai/jadwal")->name("jadwalpegawais");
     Route::view("pegawai/rekapkehadiran", "pegawai/rekapkehadiran")->name("kehadiran");
 });
 
@@ -44,9 +45,11 @@ Route::get('admin/jadwalpegawai', [PresensiController::class, 'index'])->name('j
 Route::post('admin/jadwalpegawai', [PresensiController::class, 'savePresence'])->name('jadwalpegawai.savePresence');
 
 Route::get('pegawai/rekapkehadiran', [PresensiController::class, 'rekapKehadiran'])->name('rekapkehadiran');
-Route::post('pegawai/jadwal', [JadwalKerjaController::class, 'index'])->name('jadwalkerja.index');
+Route::get('pegawai/jadwal', [JadwalKerjaController::class, 'index'])->name('jadwalkerja.index');
     
 Route::view("/admin", "manajer/dashboard")->name("dashboard");
+Route::get('admin/rekapkehadiran', [PresensiController::class, 'adminRekapKehadiran'])->name('adminrekapkehadiran');
+
 
 Route::get('/admin/katalog', [ProdukController::class, 'index'])->name('catalog');
 Route::post('/admin/katalog', [ProdukController::class, 'store'])->name('produk.store');
