@@ -31,18 +31,29 @@ class PresensiController extends Controller
 
     public function index(Request $request)
     {
-        // Ambil bulan yang dipilih dari input (format: "YYYY-MM")
         $selectedMonth = $request->query('month', now()->format('Y-m')); // Default: bulan ini
+        $selectedPegawaiId = $request->query('pegawai_id', null);
 
-        // Filter pegawai dan jadwal kerja sesuai bulan
-        $pegawais = Pegawais::whereHas('jadwalKerja', function ($query) use ($selectedMonth) {
+        $allPegawais = Pegawais::all();
+
+        $query = Pegawais::query();
+
+        if ($selectedPegawaiId) {
+            $query->where('id', $selectedPegawaiId);
+        }
+
+        $pegawaisFiltered = $query->whereHas('jadwalKerja', function ($query) use ($selectedMonth) {
             $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth]);
         })->with(['jadwalKerja' => function ($query) use ($selectedMonth) {
             $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth]);
         }])->get();
 
-        // Return ke view dengan data pegawai dan bulan yang dipilih
-        return view('manajer.jadwalpegawai', compact('pegawais', 'selectedMonth'));
+        return view('manajer.jadwalpegawai', [
+            'pegawais' => $pegawaisFiltered,
+            'allPegawais' => $allPegawais,
+            'selectedMonth' => $selectedMonth,
+            'selectedPegawaiId' => $selectedPegawaiId,
+        ]);
     }
 
 

@@ -12,20 +12,16 @@ use App\Http\Controllers\JadwalKerjaController;
 use App\Http\Controllers\Pegawai\JadwalKuliahController;
 
 Route::get('/', function () {
-    return "ini akan menjadi halaman katalog produk untuk customer";
-});
-Route::get('/', function () {
     return redirect()->route('katalog');
 });
 
 Route::get('/admin', function () {
     return redirect()->route('login');
 });
-Route::view("/admin/akun", "manajer/akun")->name("account");
-    
-Route::middleware("auth")->group(function () {
 
+Route::middleware("auth")->group(function () {
     Route::view("/admin", "manajer/dashboard")->name("dashboard");
+    Route::view("/admin/akun", "manajer/akun")->name("account");
     Route::view("/admin/catalog", "manajer/katalog")->name("catalog");
     Route::view("admin/jadwalkuliah", "manajer/jadwalkuliah")->name("jadwalkuliah");
     Route::view("admin/jadwalpegawai", "manajer/jadwalpegawai")->name("jadwalpegawai");
@@ -37,19 +33,12 @@ Route::middleware("auth")->group(function () {
     Route::view("pegawai/rekapkehadiran", "pegawai/rekapkehadiran")->name("kehadiran");
 });
 
-Route::post('pegawai/penjadwalan', [JadwalKuliahController::class, 'store'])->name('penjadwalan.store');
 Route::get('admin/jadwalkuliah', [JadwalKuliahController::class, 'index'])->name('jadwalkuliah.index');
 Route::post('admin/jadwalkuliah', [JadwalKerjaController::class, 'buatJadwal'])->name('jadwalKerja.buat');
 
 Route::get('admin/jadwalpegawai', [PresensiController::class, 'index'])->name('jadwalpegawai.index');
 Route::post('admin/jadwalpegawai', [PresensiController::class, 'savePresence'])->name('jadwalpegawai.savePresence');
-
-Route::get('pegawai/rekapkehadiran', [PresensiController::class, 'rekapKehadiran'])->name('rekapkehadiran');
-Route::get('pegawai/jadwal', [JadwalKerjaController::class, 'index'])->name('jadwalkerja.index');
-    
-Route::view("/admin", "manajer/dashboard")->name("dashboard");
 Route::get('admin/rekapkehadiran', [PresensiController::class, 'adminRekapKehadiran'])->name('adminrekapkehadiran');
-
 
 Route::get('/admin/katalog', [ProdukController::class, 'index'])->name('catalog');
 Route::post('/admin/katalog', [ProdukController::class, 'store'])->name('produk.store');
@@ -59,6 +48,9 @@ Route::put('/admin/katalog/{id}', [ProdukController::class, 'update'])->name('pr
 Route::delete('/admin/katalog/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 Route::delete('/admin/variasi/{id}', [VariasiController::class, 'destroy'])->name('variasi.destroy');
 
+Route::post('pegawai/penjadwalan', [JadwalKuliahController::class, 'store'])->name('penjadwalan.store');
+Route::get('pegawai/rekapkehadiran', [PresensiController::class, 'rekapKehadiran'])->name('rekapkehadiran');
+Route::get('pegawai/jadwal', [JadwalKerjaController::class, 'index'])->name('jadwalkerja.index');
 
 Route::get("/login", [AuthController::class, "login"])
     ->name("login");

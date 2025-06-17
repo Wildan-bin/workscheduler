@@ -29,8 +29,8 @@
                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                             <th class="py-3 px-6 text-left">Nama Pegawai</th>
                             <th class="py-3 px-6 text-left">Tanggal</th>
-                            <th class="py-3 px-6 text-left">Jam Masuk</th>
-                            <th class="py-3 px-6 text-left">Jam Keluar</th>
+                            <!-- <th class="py-3 px-6 text-left">Jam Masuk</th>
+                            <th class="py-3 px-6 text-left">Jam Keluar</th> -->
                             <th class="py-3 px-6 text-left">Status</th>
                         </tr>
                     </thead>
@@ -40,12 +40,12 @@
                                 <td class="py-3 px-6">{{ $data->pegawai->nama ?? 'N/A' }}</td>
                                 <td class="py-3 px-6">
                                     {{ \Carbon\Carbon::parse($data->tanggal)->translatedFormat('l, j F Y') }}</td>
-                                <td class="py-3 px-6">{{ \Carbon\Carbon::parse($data->jam_masuk)->format('H:i') }}</td>
+                                <!-- <td class="py-3 px-6">{{ \Carbon\Carbon::parse($data->jam_masuk)->format('H:i') }}</td>
                                 <td class="py-3 px-6">
                                     {{ $data->jam_keluar ? \Carbon\Carbon::parse($data->jam_keluar)->format('H:i') : '-' }}
-                                </td>
+                                </td> -->
                                 <td class="py-3 px-6">
-                                    <span class="{{ $data->status === 'Hadir' ? 'text-green-600' : 'text-red-600' }}">
+                                    <span class="{{ $data->status_kehadiran === 'Hadir' ? 'text-green-600' : 'text-red-600' }}">
                                         {{ $data->status_kehadiran }}
                                     </span>
                                 </td>

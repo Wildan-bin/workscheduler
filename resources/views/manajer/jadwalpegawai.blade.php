@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="w-full max-w-md rounded-2xl shadow-md p-6">
+    <div class="w-full rounded-2xl shadow-md p-6 px-20">
         <!-- Header -->
         <form action="{{ route('dashboard') }}" method="GET" class="absolute top-5 left-5">
             @csrf
@@ -12,12 +12,23 @@
         </form>
 
         <!-- Title -->
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">Jadwal Pegawai</h1>
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Jadwal Pegawai</h1>
 
         <!-- Date Input Styled as Button -->
         <div class="relative mt-2 mb-6 text-left">
-            <!-- Form untuk memilih bulan -->
-            <form method="GET" action="{{ route('jadwalpegawai.index') }}">
+            <!-- Form untuk memilih bulan dan pegawai -->
+            <form method="GET" action="{{ route('jadwalpegawai.index') }}" class="flex items-center space-x-4">
+                <select name="pegawai_id" id="pegawaiSelect"
+                    class="text-sm bg-[#F1C93B] text-black font-medium py-1 px-3 rounded-lg appearance-none cursor-pointer focus:outline-none"
+                    onchange="this.form.submit()">
+                    <option value="">Pilih Pegawai</option>
+                    @foreach ($allPegawais as $pegawaiOption)
+                        <option value="{{ $pegawaiOption->id }}"
+                            {{ $selectedPegawaiId == $pegawaiOption->id ? 'selected' : '' }}>
+                            {{ $pegawaiOption->nama }}
+                        </option>
+                    @endforeach
+                </select>
                 <input type="month" name="month" id="monthInput"
                     class="text-sm bg-[#F1C93B] text-black font-medium py-1 px-3 rounded-lg appearance-none w-auto text-left cursor-pointer focus:outline-none"
                     value="{{ $selectedMonth }}" onchange="this.form.submit()" />
@@ -25,18 +36,20 @@
         </div>
 
         <!-- Schedule List -->
-        <div id="scheduleList" class="space-y-4">
+        <div id="scheduleList" class="w-full grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-20 gap-y-10">
             <!-- Jadwal akan di-update oleh JavaScript -->
+            
             @foreach ($pegawais as $pegawai)
                 @foreach ($pegawai->jadwalKerja as $jadwal)
                     <div>
                         <h3 class="text-lg font-semibold text-gray-700">
-                            {{ \Carbon\Carbon::parse($jadwal->tanggal)->format('l, j F Y') }}
+                            {{ \Carbon\Carbon::parse($jadwal->tanggal)->translatedFormat('l, j F Y') }}
                         </h3>
                         <div class="bg-gray-400 text-white p-3 rounded-2xl mt-1">
                             <p class="font-medium">{{ $pegawai->nama }}</p>
+                            <p class="font-medium"></p>
                             @if ($jadwal->jam_selesai === '00:00:00')
-                                <span class="text-red-500">Libur Kerja</span>
+                                <span class="text-red-500 text-sm">Libur Kerja</span>
                             @else
                                 <p class="text-sm">
                                     {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H.i') }} -

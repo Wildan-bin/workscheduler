@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="p-6">
+    <div class="p-10 px-32">
 
         <!-- Header -->
         <form action="{{ route('profile') }}" method="GET" class="absolute top-5 left-5">
@@ -27,23 +27,25 @@
                 <table class="table-auto border-collapse w-full bg-white shadow-md rounded-lg">
                     <thead>
                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 text-left">Nama Pegawai</th>
                             <th class="py-3 px-6 text-left">Tanggal</th>
-                            <th class="py-3 px-6 text-left">Jam Masuk</th>
-                            <th class="py-3 px-6 text-left">Jam Keluar</th>
+                            <!-- <th class="py-3 px-6 text-left">Jam Masuk</th>
+                            <th class="py-3 px-6 text-left">Jam Keluar</th> -->
                             <th class="py-3 px-6 text-left">Status</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-700 text-sm font-light">
                         @foreach ($kehadiran as $data)
                             <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="py-3 px-6">{{ $data->pegawai->nama ?? 'N/A' }}</td>
                                 <td class="py-3 px-6">
                                     {{ \Carbon\Carbon::parse($data->tanggal)->translatedFormat('l, j F Y') }}</td>
-                                <td class="py-3 px-6">{{ \Carbon\Carbon::parse($data->jam_masuk)->format('H:i') }}</td>
+                                <!-- <td class="py-3 px-6">{{ \Carbon\Carbon::parse($data->jam_masuk)->format('H:i') }}</td>
                                 <td class="py-3 px-6">
                                     {{ $data->jam_keluar ? \Carbon\Carbon::parse($data->jam_keluar)->format('H:i') : '-' }}
-                                </td>
+                                </td> -->
                                 <td class="py-3 px-6">
-                                    <span class="{{ $data->status === 'Hadir' ? 'text-green-600' : 'text-red-600' }}">
+                                    <span class="{{ $data->status_kehadiran === 'Hadir' ? 'text-green-600' : 'text-red-600' }}">
                                         {{ $data->status_kehadiran }}
                                     </span>
                                 </td>

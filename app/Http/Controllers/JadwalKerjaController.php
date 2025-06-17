@@ -7,7 +7,6 @@ use App\Models\Pegawais;
 use App\Models\JadwalKerja;
 use App\Models\JadwalKuliah;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class JadwalKerjaController extends Controller
 {
@@ -16,13 +15,12 @@ class JadwalKerjaController extends Controller
         // Ambil bulan yang dipilih dari input (format: "YYYY-MM")
         $selectedMonth = $request->query('month', now()->format('Y-m')); // Default: bulan ini
 
-        // Filter pegawai dan jadwal kerja sesuai bulan, hanya pegawai yang login
-        $pegawais = Pegawais::where('id', Auth::id())
-            ->whereHas('jadwalKerja', function ($query) use ($selectedMonth) {
-                $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth]);
-            })->with(['jadwalKerja' => function ($query) use ($selectedMonth) {
-                $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth]);
-            }])->get();
+        // Filter pegawai dan jadwal kerja sesuai bulan
+        $pegawais = Pegawais::whereHas('jadwalKerja', function ($query) use ($selectedMonth) {
+            $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth]);
+        })->with(['jadwalKerja' => function ($query) use ($selectedMonth) {
+            $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth]);
+        }])->get();
 
         // Return ke view jadwal kuliah
         return view('pegawai.jadwal', compact('pegawais', 'selectedMonth'));

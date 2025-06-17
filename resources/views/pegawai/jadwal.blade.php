@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="w-full max-w-md  rounded-2xl shadow-md p-6">
+    <div class="w-full rounded-2xl shadow-md p-6 px-20">
         <!-- Header -->
         <form action="{{ route('profile') }}" method="GET" class="absolute top-5 left-5">
             @csrf
@@ -11,7 +11,7 @@
         </form>
 
         <!-- Title -->
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">Jadwal Pegawai</h1>
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Jadwal Pegawai</h1>
 
         <!-- Date Input Styled as Button -->
         <div class="relative mt-2 mb-6 text-left">
@@ -24,7 +24,7 @@
         </div>
 
         <!-- Schedule List -->
-        <div id="scheduleList" class="space-y-4">
+        <div id="scheduleList" class="w-full grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-20 gap-y-10">
             <!-- Initial schedule, will be updated via JavaScript -->
             @foreach ($pegawais as $pegawai)
                 @foreach ($pegawai->jadwalKerja as $jadwal)
@@ -36,7 +36,7 @@
                             <p class="font-medium">{{ $pegawai->nama }}</p>
                             <p class="font-medium"></p>
                             @if ($jadwal->jam_selesai === '00:00:00')
-                                <span class="text-red-500">Libur Kerja</span>
+                                <span class="text-red-500 text-sm">Libur Kerja</span>
                             @else
                                 <p class="text-sm">
                                     {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H.i') }} -
@@ -47,8 +47,6 @@
                     </div>
                 @endforeach
             @endforeach
-
-            
         </div>
     </div>
 </x-layout>
