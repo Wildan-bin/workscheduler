@@ -33,17 +33,17 @@
 
     <!-- Categories Tabs -->
     <div class="max-w-4xl mx-auto mt-6 lg:mt-24 mb-3 flex justify-center gap-6">
-        <button id="btn-all" 
-                onclick="showAllProducts()" 
-                class="category-btn w-40 px-4 py-2 rounded-full shadow-md bg-[#CD9C20] text-white">
+        <button id="btn-all"
+            onclick="showAllProducts()"
+            class="category-btn w-40 px-4 py-2 rounded-full shadow-md bg-[#CD9C20] text-white">
             All
         </button>
         @foreach($kategoris as $kategori)
-            <button id="btn-{{ Str::slug($kategori->name) }}" 
-                    onclick="showCategory('{{ $kategori->id }}')" 
-                    class="category-btn w-40 px-4 py-2 rounded-full shadow-md bg-white text-black">
-                {{ $kategori->name }}
-            </button>
+        <button id="btn-{{ Str::slug($kategori->name) }}"
+            onclick="showCategory('{{ $kategori->id }}')"
+            class="category-btn w-40 px-4 py-2 rounded-full shadow-md bg-white text-black">
+            {{ $kategori->name }}
+        </button>
         @endforeach
     </div>
 
@@ -58,9 +58,9 @@
             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 <!-- Product Image -->
                 <div class="relative">
-                    <img src="{{ asset('images/' . $product->image) }}" 
-                         alt="{{ $product->name }}" 
-                         class="w-full h-48 object-cover">
+                    <img src="{{ asset('images/' . $product->image) }}"
+                        alt="{{ $product->name }}"
+                        class="w-full h-48 object-cover">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
                         <h3 class="text-white text-xl font-semibold">{{ $product->name }}</h3>
                     </div>
@@ -69,19 +69,18 @@
                 <!-- Product Description -->
                 <div class="p-4">
                     <p class="text-gray-600 text-sm mb-4">{{ $product->description }}</p>
-                    
+
                     <!-- Variations Accordion -->
                     <div class="space-y-2">
-                        <button 
+                        <button
                             onclick="toggleVariations('{{ $product->id }}')"
-                            class="flex items-center justify-between w-full px-4 py-2 bg-[#EECB6D] text-white rounded-lg hover:bg-[#CD9C20] transition-colors duration-200"
-                        >
+                            class="flex items-center justify-between w-full px-4 py-2 bg-[#EECB6D] text-white rounded-lg hover:bg-[#CD9C20] transition-colors duration-200">
                             <span>Lihat Variasi</span>
                             <svg id="arrow-{{ $product->id }}" class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        
+
                         <div id="variations-{{ $product->id }}" class="hidden">
                             <div class="grid grid-cols-1 gap-2 mt-2">
                                 @foreach($product->variasis as $variasi)
@@ -106,76 +105,85 @@
         @endforeach
     </div>
 
+    <div class="link flex justify-center my-12">
+        <a href="https://shopee.co.id/kievparfume?categoryId=100630&entryPoint=ShopByPDP&itemId=22477701688" class="text-[#CD9C20] font-semibold hover:underline text-lg flex items-center space-x-2" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#CD9C20" viewBox="0 0 24 24" stroke-width="0" stroke="none" class="size-8">
+                <path d="M21.82 7.01a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75H2.93a.75.75 0 0 0-.75.75v9.5a.75.75 0 0 0 .75.75h18.94a.75.75 0 0 0 .75-.75v-9.5a.75.75 0 0 0-.75-.75Zm-1.5 8.25h-15v-7h15v7Zm-3-3.5a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Zm-3-2a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1 0-1.5h3a.75.75 0 0 1 .75.75Z"/>
+            </svg>
+            <span>Belanja di Shopee</span>
+        </a>
+    </div>
+
     <!-- JavaScript -->
     <script>
-function showCategory(categoryId) {
-    // Update active button styling
-    document.querySelectorAll('.category-btn').forEach(btn => {
-        btn.classList.remove('bg-[#CD9C20]', 'text-white');
-        btn.classList.add('bg-white', 'text-black');
-    });
-    
-    const activeBtn = document.querySelector(`button[onclick="showCategory('${categoryId}')"]`);
-    if (activeBtn) {
-        activeBtn.classList.remove('bg-white', 'text-black');
-        activeBtn.classList.add('bg-[#CD9C20]', 'text-white');
-    }
+        function showCategory(categoryId) {
+            // Update active button styling
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-[#CD9C20]', 'text-white');
+                btn.classList.add('bg-white', 'text-black');
+            });
 
-    // Show/hide products based on category
-    document.querySelectorAll('.product-card').forEach(card => {
-        const categoryIds = card.dataset.categories.split(',').map(id => id.trim());
-        if (categoryIds.includes(categoryId)) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
+            const activeBtn = document.querySelector(`button[onclick="showCategory('${categoryId}')"]`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-black');
+                activeBtn.classList.add('bg-[#CD9C20]', 'text-white');
+            }
+
+            // Show/hide products based on category
+            document.querySelectorAll('.product-card').forEach(card => {
+                const categoryIds = card.dataset.categories.split(',').map(id => id.trim());
+                if (categoryIds.includes(categoryId)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
-    });
-}
 
-function showAllProducts() {
-    // Update active button styling
-    document.querySelectorAll('.category-btn').forEach(btn => {
-        btn.classList.remove('bg-[#CD9C20]', 'text-white');
-        btn.classList.add('bg-white', 'text-black');
-    });
-    
-    // Set All button active
-    document.getElementById('btn-all').classList.remove('bg-white', 'text-black');
-    document.getElementById('btn-all').classList.add('bg-[#CD9C20]', 'text-white');
+        function showAllProducts() {
+            // Update active button styling
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-[#CD9C20]', 'text-white');
+                btn.classList.add('bg-white', 'text-black');
+            });
 
-    // Show all products
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.style.display = 'block';
-    });
-}
+            // Set All button active
+            document.getElementById('btn-all').classList.remove('bg-white', 'text-black');
+            document.getElementById('btn-all').classList.add('bg-[#CD9C20]', 'text-white');
 
-// Update DOMContentLoaded to show all products by default
-document.addEventListener('DOMContentLoaded', function() {
-    showAllProducts();
-});
+            // Show all products
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.style.display = 'block';
+            });
+        }
 
-function toggleVariations(productId) {
-    const variationsDiv = document.getElementById(`variations-${productId}`);
-    const arrow = document.getElementById(`arrow-${productId}`);
-    
-    if (variationsDiv.classList.contains('hidden')) {
-        // Show variations with smooth animation
-        variationsDiv.classList.remove('hidden');
-        variationsDiv.style.maxHeight = '0';
-        setTimeout(() => {
-            variationsDiv.style.maxHeight = variationsDiv.scrollHeight + 'px';
-        }, 10);
-        arrow.style.transform = 'rotate(180deg)';
-    } else {
-        // Hide variations with smooth animation
-        variationsDiv.style.maxHeight = '0';
-        setTimeout(() => {
-            variationsDiv.classList.add('hidden');
-        }, 200);
-        arrow.style.transform = 'rotate(0)';
-    }
-}
-</script>
+        // Update DOMContentLoaded to show all products by default
+        document.addEventListener('DOMContentLoaded', function() {
+            showAllProducts();
+        });
+
+        function toggleVariations(productId) {
+            const variationsDiv = document.getElementById(`variations-${productId}`);
+            const arrow = document.getElementById(`arrow-${productId}`);
+
+            if (variationsDiv.classList.contains('hidden')) {
+                // Show variations with smooth animation
+                variationsDiv.classList.remove('hidden');
+                variationsDiv.style.maxHeight = '0';
+                setTimeout(() => {
+                    variationsDiv.style.maxHeight = variationsDiv.scrollHeight + 'px';
+                }, 10);
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                // Hide variations with smooth animation
+                variationsDiv.style.maxHeight = '0';
+                setTimeout(() => {
+                    variationsDiv.classList.add('hidden');
+                }, 200);
+                arrow.style.transform = 'rotate(0)';
+            }
+        }
+    </script>
 
     <style>
         .category-btn {

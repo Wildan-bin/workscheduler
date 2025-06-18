@@ -10,10 +10,7 @@ class Produk extends Model
     protected $fillable = [
         'id',
         'name', 
-        'size', 
-        'price', 
         'description', 
-        'stock',
         'image'
     ];
 

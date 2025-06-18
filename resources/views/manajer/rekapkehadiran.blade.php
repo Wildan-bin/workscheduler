@@ -22,9 +22,9 @@
                     <select name="pegawai_id" id="pegawaiSelect"
                         class="text-sm bg-[#F1C93B] text-black font-medium py-1 px-3 rounded-lg appearance-none cursor-pointer focus:outline-none"
                         onchange="this.form.submit()">
-                        <option value="">Pilih Pegawai</option>
+                        <option value="">Semua Pegawai</option>
                         @foreach ($allPegawais as $pegawaiOption)
-                        <option value="{{ $pegawaiOption->id }}"
+                        <option value="{{ $pegawaiOption->id }}" class="{{ $pegawaiOption->nama === 'Wildan Mukorrobin' ? 'hidden' : '' }}"
                             {{ (request('pegawai_id') == $pegawaiOption->id) ? 'selected' : '' }}>
                             {{ $pegawaiOption->nama }}
                         </option>
