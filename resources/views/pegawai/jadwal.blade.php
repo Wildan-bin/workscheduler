@@ -24,7 +24,7 @@
         </div>
 
         <!-- Schedule List -->
-        <div id="scheduleList" class="w-full grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-20 gap-y-10">
+        <div id="scheduleList" class="w-full grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-12 gap-y-8">
             <!-- Initial schedule, will be updated via JavaScript -->
             @foreach ($pegawais as $pegawai)
                 @foreach ($pegawai->jadwalKerja as $jadwal)

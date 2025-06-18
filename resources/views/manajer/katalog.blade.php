@@ -31,7 +31,7 @@
                     Katalog Produk
                 </h1>
                 <!-- tambahkan route ke katalog produk bagian customer -->
-                <a type="submit " href="{{ route('katalog') }}"
+                <a type="submit " href="{{ route('katalog') }}" target="blank"
                     class="w-2/5 text-amber-400 bg-zinc-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-xl text-xs px-1 py-1.5 text-center absolute">
                     Lihat Katalog
                 </a>

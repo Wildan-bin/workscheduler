@@ -21,12 +21,21 @@ class PresensiController extends Controller
         return view('pegawai.rekapkehadiran', compact('pegawai', 'kehadiran'));
     }
 
-    public function adminRekapKehadiran()
+    public function adminRekapKehadiran(Request $request)
     {
-        $kehadiran = Presensi::with('pegawai')->get();
+        $selectedPegawaiId = $request->query('pegawai_id', null);
+        $allPegawais = Pegawais::all();
+
+        $query = Presensi::with('pegawai');
+
+        if ($selectedPegawaiId) {
+            $query->where('pegawai_id', $selectedPegawaiId);
+        }
+
+        $kehadiran = $query->orderBy('tanggal', 'desc')->get();
 
         // Return ke view rekap kehadiran
-        return view('manajer.rekapkehadiran', compact('kehadiran'));
+        return view('manajer.rekapkehadiran', compact('kehadiran', 'allPegawais', 'selectedPegawaiId'));
     }
 
     public function index(Request $request)
@@ -48,11 +57,25 @@ class PresensiController extends Controller
             $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth]);
         }])->get();
 
+        // Query presensi for the selected month and pegawai(s)
+        $presensiQuery = \App\Models\Presensi::query();
+        if ($selectedPegawaiId) {
+            $presensiQuery->where('pegawai_id', $selectedPegawaiId);
+        }
+        $presensi = $presensiQuery->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$selectedMonth])->get();
+
+        // Map presensi by pegawai_id and tanggal for quick lookup
+        $presensiMap = [];
+        foreach ($presensi as $p) {
+            $presensiMap[$p->pegawai_id][$p->tanggal] = $p;
+        }
+
         return view('manajer.jadwalpegawai', [
             'pegawais' => $pegawaisFiltered,
             'allPegawais' => $allPegawais,
             'selectedMonth' => $selectedMonth,
             'selectedPegawaiId' => $selectedPegawaiId,
+            'presensiMap' => $presensiMap,
         ]);
     }
 

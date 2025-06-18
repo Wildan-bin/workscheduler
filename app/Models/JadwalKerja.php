@@ -22,4 +22,5 @@ class JadwalKerja extends Model
     {
         return $this->belongsTo(Pegawais::class);
     }
+
 }

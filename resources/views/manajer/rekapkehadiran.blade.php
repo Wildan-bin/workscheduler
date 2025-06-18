@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="p-6">
+    <div class="p-6 px-20">
 
         <!-- Header -->
         <form action="{{ route('dashboard') }}" method="GET" class="absolute top-5 left-5">
@@ -17,6 +17,20 @@
                 <h1 class="text-4xl font-bold leading-tight tracking-tight text-zinc-800 mb-5 self-start">
                     Rekap Kehadiran
                 </h1>
+                <!-- Filter Pegawai -->
+                <form method="GET" action="{{ route('adminrekapkehadiran') }}" class="mb-4">
+                    <select name="pegawai_id" id="pegawaiSelect"
+                        class="text-sm bg-[#F1C93B] text-black font-medium py-1 px-3 rounded-lg appearance-none cursor-pointer focus:outline-none"
+                        onchange="this.form.submit()">
+                        <option value="">Pilih Pegawai</option>
+                        @foreach ($allPegawais as $pegawaiOption)
+                        <option value="{{ $pegawaiOption->id }}"
+                            {{ (request('pegawai_id') == $pegawaiOption->id) ? 'selected' : '' }}>
+                            {{ $pegawaiOption->nama }}
+                        </option>
+                        @endforeach
+                    </select>
+                </form>
             </div>
         </div>
 

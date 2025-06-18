@@ -23,10 +23,10 @@
                     onchange="this.form.submit()">
                     <option value="">Pilih Pegawai</option>
                     @foreach ($allPegawais as $pegawaiOption)
-                        <option value="{{ $pegawaiOption->id }}"
-                            {{ $selectedPegawaiId == $pegawaiOption->id ? 'selected' : '' }}>
-                            {{ $pegawaiOption->nama }}
-                        </option>
+                    <option value="{{ $pegawaiOption->id }}"
+                        {{ $selectedPegawaiId == $pegawaiOption->id ? 'selected' : '' }}>
+                        {{ $pegawaiOption->nama }}
+                    </option>
                     @endforeach
                 </select>
                 <input type="month" name="month" id="monthInput"
@@ -36,34 +36,41 @@
         </div>
 
         <!-- Schedule List -->
-        <div id="scheduleList" class="w-full grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-20 gap-y-10">
+        <div id="scheduleList" class="w-full grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-12 gap-y-8">
             <!-- Jadwal akan di-update oleh JavaScript -->
-            
+
             @foreach ($pegawais as $pegawai)
-                @foreach ($pegawai->jadwalKerja as $jadwal)
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-700">
-                            {{ \Carbon\Carbon::parse($jadwal->tanggal)->translatedFormat('l, j F Y') }}
-                        </h3>
-                        <div class="bg-gray-400 text-white p-3 rounded-2xl mt-1">
-                            <p class="font-medium">{{ $pegawai->nama }}</p>
-                            <p class="font-medium"></p>
-                            @if ($jadwal->jam_selesai === '00:00:00')
-                                <span class="text-red-500 text-sm">Libur Kerja</span>
-                            @else
-                                <p class="text-sm">
-                                    {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H.i') }} -
-                                    {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H.i') }}
-                                </p>
-                                <!-- Button Presensi -->
-                                <button onclick="openPresenceModal('{{ $pegawai->id }}', '{{ $jadwal->tanggal }}')"
-                                    class="bg-blue-500 text-white py-1 px-3 rounded-lg mt-2 hover:bg-blue-600">
-                                    Presensi
-                                </button>
-                            @endif
-                        </div>
-                    </div>
-                @endforeach
+            @foreach ($pegawai->jadwalKerja as $jadwal)
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700">
+                    {{ \Carbon\Carbon::parse($jadwal->tanggal)->translatedFormat('l, j F Y') }}
+                </h3>
+                <div class="bg-gray-400 text-white p-3 rounded-2xl mt-1">
+                    <p class="font-medium">{{ $pegawai->nama }}</p>
+                    <p class="font-medium"></p>
+                    @if ($jadwal->jam_selesai === '00:00:00')
+                    <span class="text-red-500 text-sm">Libur Kerja</span>
+                    @else
+                    <p class="text-sm">
+                        {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H.i') }} -
+                        {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H.i') }}
+                    </p>
+                    @php
+                    $isPresensiDone = isset($presensiMap[$pegawai->id]) && isset($presensiMap[$pegawai->id][$jadwal->tanggal]);
+                    @endphp
+                    <button
+                        @if($isPresensiDone) disabled class="bg-gray-900 text-white py-1 px-3 rounded-lg mt-2 cursor-not-allowed"
+                        @else onclick="openPresenceModal('{{ $pegawai->id }}', '{{ $jadwal->tanggal }}')" class="bg-blue-500 text-white py-1 px-3 rounded-lg mt-2 hover:bg-blue-600" @endif>
+                        @if($isPresensiDone)
+                        Selesai Presensi
+                        @else
+                        Presensi
+                        @endif
+                 </button>
+                    @endif
+                </div>
+            </div>
+            @endforeach
             @endforeach
         </div>
     </div>
