@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JadwalKerja;
 use App\Models\Pegawais;
 use App\Models\Presensi;
 use Illuminate\Http\Request;
@@ -95,5 +96,23 @@ class PresensiController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Presensi berhasil disimpan.');
+    }
+
+    public function editJamMasuk($id)
+    {
+        $jadwal = JadwalKerja::findOrFail($id);
+        return response()->json($jadwal);
+    }
+
+    public function updateJamMasuk(Request $request, $id)
+    {
+        $request->validate([
+            'jam_mulai' => 'required|date_format:H:i',
+        ]);
+
+        $jadwal = JadwalKerja::findOrFail($id);
+        $jadwal->update($request->all());
+
+        return redirect()->back()->with('success', 'Jam masuk berhasil diperbarui.');
     }
 }

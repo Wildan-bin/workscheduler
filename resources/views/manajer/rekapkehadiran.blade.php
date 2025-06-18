@@ -24,7 +24,7 @@
                         onchange="this.form.submit()">
                         <option value="">Semua Pegawai</option>
                         @foreach ($allPegawais as $pegawaiOption)
-                        <option value="{{ $pegawaiOption->id }}" class="{{ $pegawaiOption->nama === 'Wildan Mukorrobin' ? 'hidden' : '' }}"
+                        <option value="{{ $pegawaiOption->id }}" class="{{ $pegawaiOption->jabatan === 'admin' ? 'hidden' : '' }}"
                             {{ (request('pegawai_id') == $pegawaiOption->id) ? 'selected' : '' }}>
                             {{ $pegawaiOption->nama }}
                         </option>

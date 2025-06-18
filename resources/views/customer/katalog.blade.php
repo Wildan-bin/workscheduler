@@ -12,10 +12,10 @@
                     name="search"
                     placeholder="Cari produk..."
                     value="{{ request('search') }}"
-                    class="flex-grow px-4 py-2 text-gray-800 bg-white focus:outline-none rounded-full">
+                    class="flex-grow px-4 py-2 text-gray-800 text-xs lg:text-base bg-white focus:outline-none rounded-full">
                 <button
                     type="submit"
-                    class="bg-[#CD9C20] text-white ms-2 px-4 py-2 rounded-3xl hover:bg-blue-600">
+                    class="bg-[#CD9C20] text-white ms-2 text-xs lg:text-base px-4 py-2 rounded-3xl hover:bg-blue-600">
                     Cari
                 </button>
             </div>
@@ -23,11 +23,11 @@
     </div>
 
     <!-- Header Banner dengan Jarak Lebih Dekat ke Elemen Bawah -->
-    <div class="relative max-w-4xl mx-auto p-4 pb-0 mt-2">
+    <div class="relative max-w-4xl mx-auto p-5 pb-0 mt-2">
         <div class="relative rounded-lg flex flex-col items-center">
-            <img src="https://i.pinimg.com/564x/6a/b1/38/6ab138742317410a16644279f5fe406e.jpg"
+            <img src="{{ asset('images/kiev.png') }}"
                 alt="Perfume"
-                class="h-40 w-full object-cover rounded-lg shadow-lg">
+                class="h-40 w-11/12 object-cover rounded-md shadow-lg">
         </div>
     </div>
 
@@ -35,13 +35,13 @@
     <div class="max-w-4xl mx-auto mt-6 lg:mt-24 mb-3 flex justify-center gap-6">
         <button id="btn-all"
             onclick="showAllProducts()"
-            class="category-btn w-40 px-4 py-2 rounded-full shadow-md bg-[#CD9C20] text-white">
+            class="category-btn w-24 lg:w-40 text-xs lg:text-base px-4 py-2 rounded-full shadow-md bg-[#CD9C20] text-white">
             All
         </button>
         @foreach($kategoris as $kategori)
         <button id="btn-{{ Str::slug($kategori->name) }}"
             onclick="showCategory('{{ $kategori->id }}')"
-            class="category-btn w-40 px-4 py-2 rounded-full shadow-md bg-white text-black">
+            class="category-btn w-24 lg:w-40 text-xs lg:text-base px-4 py-2 rounded-full shadow-md bg-white text-black">
             {{ $kategori->name }}
         </button>
         @endforeach
@@ -52,7 +52,7 @@
 
     <br>
     <!-- Replace the existing product card with this new version -->
-    <div id="" class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+    <div id="" class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:p-2 lg:p-4 px-8">
         @foreach($produks as $product)
         <div class="product-card" data-categories="{{ implode(',', $product->kategoris->pluck('id')->toArray()) }}">
             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -68,13 +68,13 @@
 
                 <!-- Product Description -->
                 <div class="p-4">
-                    <p class="text-gray-600 text-sm mb-4">{{ $product->description }}</p>
+                    <p class="text-gray-600 text-xs lg:text-sm mb-4">{{ $product->description }}</p>
 
                     <!-- Variations Accordion -->
                     <div class="space-y-2">
                         <button
                             onclick="toggleVariations('{{ $product->id }}')"
-                            class="flex items-center justify-between w-full px-4 py-2 bg-[#EECB6D] text-white rounded-lg hover:bg-[#CD9C20] transition-colors duration-200">
+                            class="flex items-center justify-between w-full px-4 py-2 bg-[#EECB6D] text-white text-xs lg:text-base rounded-lg hover:bg-[#CD9C20] transition-colors duration-200">
                             <span>Lihat Variasi</span>
                             <svg id="arrow-{{ $product->id }}" class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -108,7 +108,7 @@
     <div class="link flex justify-center my-12">
         <a href="https://shopee.co.id/kievparfume?categoryId=100630&entryPoint=ShopByPDP&itemId=22477701688" class="text-[#CD9C20] font-semibold hover:underline text-lg flex items-center space-x-2" target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" fill="#CD9C20" viewBox="0 0 24 24" stroke-width="0" stroke="none" class="size-8">
-                <path d="M21.82 7.01a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75H2.93a.75.75 0 0 0-.75.75v9.5a.75.75 0 0 0 .75.75h18.94a.75.75 0 0 0 .75-.75v-9.5a.75.75 0 0 0-.75-.75Zm-1.5 8.25h-15v-7h15v7Zm-3-3.5a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Zm-3-2a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1 0-1.5h3a.75.75 0 0 1 .75.75Z"/>
+                <path d="M21.82 7.01a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75H2.93a.75.75 0 0 0-.75.75v9.5a.75.75 0 0 0 .75.75h18.94a.75.75 0 0 0 .75-.75v-9.5a.75.75 0 0 0-.75-.75Zm-1.5 8.25h-15v-7h15v7Zm-3-3.5a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Zm-3-2a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1 0-1.5h3a.75.75 0 0 1 .75.75Z" />
             </svg>
             <span>Belanja di Shopee</span>
         </a>

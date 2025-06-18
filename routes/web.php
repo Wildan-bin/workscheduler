@@ -20,8 +20,8 @@ Route::get('/admin', function () {
 });
 
 Route::middleware("auth")->group(function () {
-    Route::view("/admin", "manajer/dashboard")->name("dashboard");
     Route::view("/admin/akun", "manajer/akun")->name("account");
+    Route::view("/admin", "manajer/dashboard")->name("dashboard");
     Route::view("/admin/catalog", "manajer/katalog")->name("catalog");
     Route::view("admin/jadwalkuliah", "manajer/jadwalkuliah")->name("jadwalkuliah");
     Route::view("admin/jadwalpegawai", "manajer/jadwalpegawai")->name("jadwalpegawai");
@@ -38,6 +38,8 @@ Route::post('admin/jadwalkuliah', [JadwalKerjaController::class, 'buatJadwal'])-
 
 Route::get('admin/jadwalpegawai', [PresensiController::class, 'index'])->name('jadwalpegawai.index');
 Route::post('admin/jadwalpegawai', [PresensiController::class, 'savePresence'])->name('jadwalpegawai.savePresence');
+Route::get('admin/jadwalpegawai/{id}/edit', [PresensiController::class, 'editJamMasuk'])->name('jadwalpegawai.edit');
+Route::put('admin/jadwalpegawai/{id}', [PresensiController::class, 'updateJamMasuk'])->name('jadwalpegawai.update');
 Route::get('admin/rekapkehadiran', [PresensiController::class, 'adminRekapKehadiran'])->name('adminrekapkehadiran');
 
 Route::get('/admin/katalog', [ProdukController::class, 'index'])->name('catalog');

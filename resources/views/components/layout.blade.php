@@ -16,7 +16,7 @@
 </head>
 
 <body class="bg-[#FDFAEF]">
-    <section class="bg-transparent pt-[30%] lg:pt-5 font-[Poppins]">
+    <section class="bg-transparent pt-[15%] lg:pt-[3%] lg:pt-5 font-[Poppins]">
         {{ $slot }}
     </section>
 
