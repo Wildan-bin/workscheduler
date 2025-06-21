@@ -40,7 +40,7 @@
     </section>
     <!-- TAMBAH PRODUK -->
 
-    <section class="container mx-auto px-4 lg:mt-32">
+    <section class="container mx-auto px-4 lg:mt-32 px-10 lg:px-20">
         <h1 class="text-2xl font-bold mb-6">Manajemen Produk</h1>
 
         <div class="flex gap-4 mb-4">
@@ -161,7 +161,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm lg:text-md">{{ $product->description }}</p>
+                            <p class="text-gray-600 text-sm lg:text-md">{!! nl2br(e($product->description)) !!}</p>
                         </div>
                     </div>
 

@@ -68,7 +68,7 @@
 
                 <!-- Product Description -->
                 <div class="p-4">
-                    <p class="text-gray-600 text-xs lg:text-sm mb-4">{{ $product->description }}</p>
+                    <p class="text-gray-600 text-xs lg:text-sm mb-4">{!! nl2br(e($product->description)) !!}</p>
 
                     <!-- Variations Accordion -->
                     <div class="space-y-2">
