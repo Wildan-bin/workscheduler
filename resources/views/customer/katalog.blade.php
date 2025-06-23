@@ -32,27 +32,49 @@
     </div>
 
     <!-- Categories Tabs -->
-    <div class="max-w-4xl mx-auto mt-6 lg:mt-24 mb-3 flex justify-center gap-6">
+    <!-- <div class="flex md:justify-center gap-2 md:gap-4 overflow-x-auto px-8 lg:px-0 py-2">
         <button id="btn-all"
             onclick="showAllProducts()"
-            class="category-btn w-24 lg:w-40 text-xs lg:text-base px-4 py-2 rounded-full shadow-md bg-[#CD9C20] text-white">
+            class="category-btn w-30 lg:w-40 text-xs lg:text-base px-4 py-2 rounded-full shadow-md bg-[#CD9C20] text-white">
             All
         </button>
         @foreach($kategoris as $kategori)
         <button id="btn-{{ Str::slug($kategori->name) }}"
             onclick="showCategory('{{ $kategori->id }}')"
-            class="category-btn w-24 lg:w-40 text-xs lg:text-base px-4 py-2 rounded-full shadow-md bg-white text-black">
+            class="category-btn w-30 lg:w-40 text-xs lg:text-base px-4 py-2 rounded-full shadow-md bg-white text-black">
             {{ $kategori->name }}
         </button>
         @endforeach
-    </div>
+    </div> -->
+
+    <div class="flex md:justify-center gap-2 md:gap-4 overflow-x-auto px-8 lg:px-0 py-2">
+            <div class="flex flex-col items-center">
+                <button id="btn-all" 
+                        onclick="showAllProducts()" 
+                        class="category-btn min-w-[130px] md:min-w-[160px] text-xs lg:text-base px-4 py-2 rounded-full shadow-md bg-[#CD9C20] text-white">
+                    All
+                </button>
+            </div>
+            
+            @foreach($kategoris as $kategori)
+            <div class="flex flex-col items-center gap-2">
+                
+                <!-- Category Button -->
+                <button id="btn-{{ Str::slug($kategori->name) }}" 
+                        onclick="showCategory('{{ $kategori->id }}')" 
+                        class="category-btn min-w-[130px] md:min-w-[160px] text-xs lg:text-base px-4 py-2 rounded-full shadow-md bg-white text-black">
+                    {{ $kategori->name }}
+                </button>
+            </div>
+            @endforeach
+        </div>
 
     <!-- Product Grid -->
     <div id="product-grid" class="max-w-4xl mx-auto grid grid-cols-2 gap-4 p-2"></div>
 
     <br>
     <!-- Replace the existing product card with this new version -->
-    <div id="" class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:p-2 lg:p-4 px-8">
+    <div id="" class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:p-4 px-6 md:px-10">
         @foreach($produks as $product)
         <div class="product-card" data-categories="{{ implode(',', $product->kategoris->pluck('id')->toArray()) }}">
             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -60,7 +82,7 @@
                 <div class="relative">
                     <img src="{{ asset('images/' . $product->image) }}"
                         alt="{{ $product->name }}"
-                        class="w-full h-48 object-cover">
+                        class="w-full h-32 md:h-48 object-cover">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
                         <h3 class="text-white text-xl font-semibold">{{ $product->name }}</h3>
                     </div>
@@ -68,7 +90,28 @@
 
                 <!-- Product Description -->
                 <div class="p-4">
-                    <p class="text-gray-600 text-xs lg:text-sm mb-4">{!! nl2br(e($product->description)) !!}</p>
+                    <div class="text-gray-600 text-xs md:text-sm mb-4">
+                        <div id="description-short-{{ $product->id }}" class="md:hidden">
+                            @php
+                                $words = explode(' ', strip_tags($product->description));
+                                $shortDescription = implode(' ', array_slice($words, 0, 15));
+                                $hasMore = count($words) > 15;
+                            @endphp
+                            {{ $shortDescription }}{{ $hasMore ? '...' : '' }}
+                            @if($hasMore)
+                                <button onclick="toggleDescription('{{ $product->id }}')" class="text-[#CD9C20] font-semibold hover:underline ml-1">Baca selengkapnya
+                                </button>
+                            @endif
+                        </div>
+                        <div id="description-full-{{ $product->id }}" class="hidden md:block">
+                            {!! nl2br(e($product->description)) !!}
+                            @if($hasMore)
+                                <button onclick="toggleDescription('{{ $product->id }}')" class="text-[#CD9C20] font-semibold hover:underline ml-1 md:hidden">
+                                    Sembunyikan
+                                </button>
+                            @endif
+                        </div>
+                    </div>
 
                     <!-- Variations Accordion -->
                     <div class="space-y-2">
@@ -108,7 +151,7 @@
     <div class="link flex justify-center my-12">
         <a href="https://shopee.co.id/kievparfume?categoryId=100630&entryPoint=ShopByPDP&itemId=22477701688" class="text-[#CD9C20] font-semibold hover:underline text-lg flex items-center space-x-2" target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" fill="#CD9C20" viewBox="0 0 24 24" stroke-width="0" stroke="none" class="size-8">
-                <path d="M21.82 7.01a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75H2.93a.75.75 0 0 0-.75.75v9.5a.75.75 0 0 0 .75.75h18.94a.75.75 0 0 0 .75-.75v-9.5a.75.75 0 0 0-.75-.75Zm-1.5 8.25h-15v-7h15v7Zm-3-3.5a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Zm-3-2a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1 0-1.5h3a.75.75 0 0 1 .75.75Z" />
+                <path d="M21.82 7.01a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75h-1.5v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v.75H2.93a.75.75 0 0 0-.75.75v9.5a.75.75 0 0 0 .75.75h18.94a.75.75 0 0 0 .75-.75v-9.5a.75.75 0 0 0-.75-.75Zm-1.5 8.25h-15v-7h15v7Zm-3-3.5a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Zm-3-2a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1 0-1.5h3a.75.75 0 0 1 .75.75Z" />
             </svg>
             <span>Belanja di Shopee</span>
         </a>
@@ -181,6 +224,19 @@
                     variationsDiv.classList.add('hidden');
                 }, 200);
                 arrow.style.transform = 'rotate(0)';
+            }
+        }
+
+        function toggleDescription(productId) {
+            const shortDescription = document.getElementById(`description-short-${productId}`);
+            const fullDescription = document.getElementById(`description-full-${productId}`);
+
+            if (shortDescription.classList.contains('hidden')) {
+                shortDescription.classList.remove('hidden');
+                fullDescription.classList.add('hidden');
+            } else {
+                shortDescription.classList.add('hidden');
+                fullDescription.classList.remove('hidden');
             }
         }
     </script>

@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="p-6 px-20">
+    <div class="p-6 px-6 md:px-20">
 
         <!-- Header -->
         <form action="{{ route('dashboard') }}" method="GET" class="absolute top-5 left-5">

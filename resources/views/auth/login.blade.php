@@ -12,12 +12,12 @@
 </head>
 
 <body class="bg-amber-50">
-    <section class="bg-gray-50 pt-[30%] lg:pt-5 font-[Poppins]">
+    <section class="bg-gray-50 pt-[15%] md:pt-[10%] lg:pt-0 font-[Poppins]">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <div class="w-full bg-transparent rounded-lg md:mt-0 sm:max-w-md xl:p-0">
                 <h1
-                    class="text-4xl font-bold tracking-normal leading-tight tracking-tight text-zinc-800 mb-5 self-start">
-                    Sign In
+                    class="text-4xl font-semibold leading-tight tracking-tight text-zinc-800 mb-5 self-start text-center">
+                    Login
                 </h1>
             </div>
             @if (session()->has('success'))
@@ -33,7 +33,7 @@
                 </div>
             @endif
             <div
-                class="w-full bg-[#EECB6D] rounded-[40px] shadow border md:mt-0 sm:max-w-md xl:p-0 shadow-[4px_4px_10px_3px_#c7c7c7]">
+                class="w-11/12 md:w-full bg-[#EECB6D] rounded-[40px] border md:mt-0 sm:max-w-md xl:p-0 shadow-[4px_4px_10px_3px_#c7c7c7]">
                 <div class="p-6 py-10 space-y-4 md:space-y-6 sm:p-8">
 
                     <form class="space-y-4 md:space-y-6" action="{{ route('login.post') }}" method="POST">

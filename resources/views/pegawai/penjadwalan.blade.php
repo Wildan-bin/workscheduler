@@ -25,9 +25,9 @@
         </button>
     </form>
 
-    <div class="px-6 py-8 mx-20 my-10 md:h-screen lg:py-0">
+    <div class="px-6 py-8 mx-6 md:mx-20 my-10 md:h-screen lg:py-0">
         <div class="w-full bg-transparent rounded-lg md:mt-0 sm:max-w-md xl:p-0">
-            <h1 class="text-4xl font-bold tracking-normal leading-tight tracking-tight text-zinc-800 mb-5 self-start">
+            <h1 class="text-4xl font-bold leading-tight tracking-tight text-zinc-800 mb-5 self-start">
                 Penjadwalan
             </h1>
         </div>
@@ -45,7 +45,7 @@
         <div class="flex flex-col items-center w-11/12 md:mt-0 text-sm font-medium relative">
             <div class="w-8/12">
                 <form class="space-y-4 md:space-y-6 mt-10 relative" action="{{ route('penjadwalan.store') }}" method="POST">
-                    <div class="grid grid-cols-3 gap-20 gap-y-10 mb-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 gap-y-4 md:gap-y-10 mb-10">
 
                         @csrf
                         @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'] as $day)
@@ -70,7 +70,7 @@
                     </div>
                     <hr class="border-gray-500 mb-6">
                     <button type="submit"
-                        class="w-4/12 py-4 flex justify-self-center justify-center bg-[#333533] text-[#EECB6D] rounded-2xl hover:bg-[#EECB6D] hover:text-[#333533] transition-colors duration-200">
+                        class="w-full md:w-8/12 lg:w-4/12 py-4 flex justify-self-center justify-center bg-[#333533] text-[#EECB6D] rounded-2xl hover:bg-[#EECB6D] hover:text-[#333533] transition-colors duration-200">
                         <p class="text-center text-md">Submit Jadwal Kuliah</p>
                     </button>
                 </form>

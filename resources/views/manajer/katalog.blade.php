@@ -23,11 +23,11 @@
         </form>
         <h1 class="absolute top-8 right-10 font-semibold text-normal">Halo, Wildan</h1>
     </div>
-    <section class="mt-12 mx-20">
-        <div class="px-6 py-6 mx-auto lg:py-0">
+    <section class="mt-2 md:mt-12 md:mx-4 lg:mx-20">
+        <div class="px-6 py-16 lg:py-6 mx-auto">
             <div class="w-full bg-transparent rounded-lg md:mt-0 sm:max-w-md xl:p-0 relative">
                 <h1
-                    class="text-4xl font-bold tracking-normal leading-tight tracking-tight text-zinc-800 mb-5 self-start">
+                    class="text-4xl font-bold leading-tight tracking-tight text-zinc-800 mb-5 self-start">
                     Katalog Produk
                 </h1>
                 <!-- tambahkan route ke katalog produk bagian customer -->
@@ -40,10 +40,10 @@
     </section>
     <!-- TAMBAH PRODUK -->
 
-    <section class="container mx-auto px-4 lg:mt-32 px-10 lg:px-20">
+    <section class="container mx-auto lg:mt-32 px-4 md:px-10 lg:px-20">
         <h1 class="text-2xl font-bold mb-6">Manajemen Produk</h1>
 
-        <div class="flex gap-4 mb-4">
+        <div class="flex flex-col md:flex-row gap-4 mb-4">
             <!-- Button Tambah Produk -->
             <button
                 class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -59,7 +59,7 @@
             </button>
         </div>
         <!-- Categories Tabs -->
-        <div class="mb-6 flex justify-center gap-4 overflow-x-auto py-2">
+        <div class="flex md:justify-center gap-2 md:gap-4 overflow-x-auto px-8 lg:px-0 py-2">
             <div class="flex flex-col items-center">
                 <button id="btn-all" 
                         onclick="showAllProducts()" 
@@ -106,8 +106,8 @@
             <div class="product-card p-3" data-categories="{{ implode(',', $product->kategoris->pluck('id')->toArray()) }}">
                 <!-- Card Produk Utama -->
                 <div class="bg-[#EECB6D] rounded-3xl shadow-lg p-4 lg:p-6 mb-4">
-                    <div class="flex items-center mb-4">
-                        <div class="relative">
+                    <div class="flex flex-col sm:flex-row items-center mb-4">
+                        <div class="relative mb-4">
                             @if ($product->image)
                             <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" class="w-32 h-32 object-cover rounded-lg">
                             <!-- Button Edit Produk -->
@@ -138,13 +138,13 @@
                             <span class="text-gray-500">Tidak ada gambar</span>
                             @endif
                         </div>
-                        <div class="w-10/12 ml-20">
+                        <div class="md:w-10/12 md:ml-20">
                             <div class="flex justify-between items-start">
-                                <h3 class="text-lg font-semibold lg:text-2xl mb-2">{{$product->name}}</h3>
+                                <h3 class="text-base md:text-lg font-semibold lg:text-2xl mb-2">{{$product->name}}</h3>
                                 <!-- Category Dropdown -->
                                 <div class="flex items-center gap-2">
                                     <select id="category_select_{{$product->id}}" 
-                                            class="border rounded-lg px-3 py-1 text-sm"
+                                            class="border rounded-lg px-3 py-1 text-xs md:text-sm"
                                             onchange="showSaveButton({{$product->id}})">
                                         <option value="">Pilih Kategori</option>
                                         @foreach($kategoris as $kategori)
@@ -161,7 +161,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm lg:text-md">{!! nl2br(e($product->description)) !!}</p>
+                            <p class="text-gray-600 text-xs md:text-sm lg:text-md">{!! nl2br(e($product->description)) !!}</p>
                         </div>
                     </div>
 
@@ -172,18 +172,18 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h3 class="font-semibold mb-2">Variasi {{$loop->iteration}}</h3>
-                                    <p class="text-sm lg:text-md">Size: {{$variasi->size}} ml</p>
-                                    <p class="text-sm lg:text-md">Rp{{ number_format($variasi->price, 0, ',', '.') }}</p>
-                                    <p class="text-sm lg:text-md">Stok: {{ $variasi->stock ?? 'Kosong' }}</p>
+                                    <p class="text-xs md:text-sm lg:text-md">Size: {{$variasi->size}} ml</p>
+                                    <p class="text-xs md:text-sm lg:text-md">Rp{{ number_format($variasi->price, 0, ',', '.') }}</p>
+                                    <p class="text-xs md:text-sm lg:text-md">Stok: {{ $variasi->stock ?? 'Kosong' }}</p>
                                 </div>
                                 <div class="flex gap-2">
                                     <button
-                                        class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 text-sm"
+                                        class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 text-xs md:text-sm"
                                         onclick="openModal('editModal', {{ json_encode($variasi) }})">
                                         Edit
                                     </button>
                                     <button
-                                        class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-sm"
+                                        class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs md:text-sm"
                                         onclick="openModal('deleteVariasiModal', {{ json_encode($variasi) }})">
                                         Hapus
                                     </button>
